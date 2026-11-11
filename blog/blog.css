@@ -67,3 +67,6 @@ sup.cite a { text-decoration: none; color: var(--sft); }
   .cases th:last-child { display: none; }
   .post-table td:first-child { white-space: normal; }
 }
+
+.post-update { margin: 18px 0 0; padding: 12px 14px; border: 1px solid var(--line); border-left: 3px solid var(--sft); border-radius: 6px; background: var(--panel); font-size: 13.5px; line-height: 1.55; color: var(--body); }
+.post-update b { color: var(--fg); font-weight: 500; }
