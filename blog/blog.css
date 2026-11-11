@@ -1,0 +1,69 @@
+.post-layout { position: relative; width: min(960px, 100% - 32px); margin: 0 auto; }
+.post-rail { position: fixed; top: 140px; left: max(16px, calc((100vw - 960px) / 2 - 170px)); width: 150px; font-size: 12px; }
+.rail-title { margin: 0 0 10px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.post-rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.post-rail a { position: relative; display: block; padding-left: 14px; color: var(--muted); text-decoration: none; }
+.post-rail a::before { content: ''; position: absolute; left: 0; top: 50%; width: 5px; height: 5px; border-radius: 50%; background: var(--faint); transform: translateY(-50%); }
+.post-rail a:hover, .post-rail a.active { color: var(--fg); }
+.post-rail a.active::before { background: var(--fg); }
+
+.post { max-width: 720px; margin: 0 auto; padding: 48px 0 0; }
+.post-head h1 { font-size: 41px; }
+.post-head .tag { margin: 8px 0 22px; }
+.meta { display: grid; grid-template-columns: 96px 1fr; gap: 6px 16px; margin: 0 0 8px; font-size: 13px; }
+.meta dt { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.meta dd { margin: 0; color: var(--body); }
+.meta a { color: var(--body); text-decoration-color: var(--faint); text-underline-offset: 3px; }
+
+.post section { padding-top: 44px; scroll-margin-top: 20px; }
+.post h2 { margin-bottom: 14px; }
+.post h3 { margin: 30px 0 10px; font: 500 16px var(--sans); color: var(--fg); }
+.post p, .post li { font-size: 17px; line-height: 1.55; color: var(--body); }
+.post p { margin: 0 0 16px; }
+.post ul { padding-left: 20px; margin: 0 0 16px; }
+.post li { margin-bottom: 8px; }
+.post strong { color: var(--fg); font-weight: 500; }
+.post em { color: var(--fg); }
+.post a { color: var(--fg); text-decoration-color: var(--faint); text-underline-offset: 3px; }
+.post code { font-size: .8em; }
+sup.cite { font-size: 10px; line-height: 0; margin-left: 1px; }
+sup.cite a { text-decoration: none; color: var(--sft); }
+
+.post-table { margin: 6px 0 22px; }
+.post-table td { font-size: 14px; }
+.post-table td:first-child { color: var(--fg); white-space: nowrap; }
+.post-table td.yes { color: var(--good); }
+.cases td { vertical-align: top; line-height: 1.5; padding-top: 12px; padding-bottom: 12px; }
+.cases td:first-child { white-space: normal; width: 170px; }
+.cases td:first-child b { display: block; font-weight: 500; }
+.cases td:first-child span { display: block; font-size: 12px; color: var(--muted); }
+.cases td:last-child { font-size: 11.5px; white-space: nowrap; }
+
+.post-fig { margin: 22px 0 18px; padding: 18px 18px 12px; border: 1px solid var(--line); border-radius: 6px; background: color-mix(in srgb, var(--panel) 60%, transparent); }
+.post .fig-title { margin: 0 0 2px; font: 500 14px var(--sans); color: var(--fg); }
+.post .fig-sub { margin: 0 0 14px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.hb { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 10px; padding: 3px 0; font-size: 13px; }
+.hb .lab { color: var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hb .lab.ours { color: var(--fg); font-weight: 500; }
+.hb .trk { position: relative; height: 14px; }
+.hb .fill { position: absolute; left: 0; top: 1px; height: 12px; border-radius: 0 4px 4px 0; }
+.hb .v { position: absolute; top: -2px; font: 12px var(--mono); color: var(--fg); white-space: nowrap; }
+.grp { margin-bottom: 12px; }
+.post .grp-lab { margin: 6px 0 4px; font-size: 12px; color: var(--muted); }
+.post .fig-note { margin: 10px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+.refs { padding-left: 20px; }
+.refs li { font-size: 14px; color: var(--body); margin-bottom: 8px; scroll-margin-top: 20px; }
+.refs li:target { color: var(--fg); }
+.bib-wrap { position: relative; }
+.copy { position: absolute; top: 10px; right: 10px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--muted); font: 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.copy:hover { color: var(--fg); }
+
+@media (max-width: 1260px) { .post-rail { display: none; } }
+@media (max-width: 720px) {
+  .post p, .post li { font-size: 16px; }
+  .hb { grid-template-columns: 110px 1fr; font-size: 12px; }
+  .cases td:last-child { display: none; }
+  .cases th:last-child { display: none; }
+  .post-table td:first-child { white-space: normal; }
+}
