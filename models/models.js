@@ -184,7 +184,7 @@
       root.appendChild(svg('text', { class: 'pt-label ours', x: X(p.x) + (right ? 13 : -13), y: Y(p.y) + 4, 'text-anchor': right ? 'start' : 'end' }, 'Conviction-' + o.short));
     });
     fig.appendChild(root);
-    fig.appendChild(el('figcaption', { class: 'note' }, 'Grey dots: the 14 off-the-shelf open models from the leaderboard (hover for names). Hollow ring: Qwen3-1.7B, the base all three adapters start from.'));
+    fig.appendChild(el('figcaption', { class: 'note' }, 'Grey dots: the ' + DATA.models.filter(function (m) { return m.group === 'other'; }).length + ' off-the-shelf open models from the leaderboard (hover for names). Hollow ring: Qwen3-1.7B, the base all three adapters start from.'));
   }
 
   // ---------- fingerprints ----------

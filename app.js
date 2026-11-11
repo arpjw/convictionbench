@@ -135,7 +135,7 @@
     fig.innerHTML = '';
     var W = 960, H = 470, L = 58, R = 170, T = 16, B = 52;
     var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
-      'aria-label': 'Resistance to social pressure (x) against resistance to forged records (y) for 13 models' });
+      'aria-label': 'Resistance to social pressure (x) against resistance to forged records (y) for ' + DATA.models.length + ' models' });
     var X = function (v) { return L + v * (W - L - R); };
     var Y = function (v) { return T + (1 - v) * (H - T - B); };
     for (var g = 0; g <= 1.0001; g += 0.25) {
@@ -157,9 +157,16 @@
     var colour = function (g) { return 'var(--' + (g === 'ours_rl' ? 'rl' : g === 'ours_sft' ? 'sft' : g === 'ours_v2' ? 'v2' : g === 'base' ? 'base' : 'other') + ')'; };
 
     // label placement: greedy vertical de-overlap on the right-hand side of each point
+    // with ~40 models, label only ours, the base model and the extremes on each axis; the rest are hover-only
+    var byY = pts.slice().sort(function (a, b) { return b.y - a.y; }), byX = pts.slice().sort(function (a, b) { return b.x - a.x; });
+    var keep = {};
+    pts.forEach(function (p) { if (isOurs(p.m) || p.m.group === 'base') keep[p.m.key] = 1; });
+    byY.filter(function (p) { return p.m.group === 'other'; }).slice(0, 3).forEach(function (p) { keep[p.m.key] = 1; });
+    byX.filter(function (p) { return p.m.group === 'other'; }).slice(0, 3).forEach(function (p) { keep[p.m.key] = 1; });
+    pts.forEach(function (p) { p.labelled = !!keep[p.m.key]; });
     pts.sort(function (a, b) { return a.y - b.y; });
     var placed = [];
-    pts.forEach(function (p) {
+    pts.filter(function (p) { return p.labelled; }).forEach(function (p) {
       var ly = Y(p.y) + 4;
       for (var tries = 0; tries < 40; tries++) {
         var clash = placed.some(function (q) { return Math.abs(q.ly - ly) < 14 && Math.abs(q.lx - (X(p.x) + 10)) < 120; });
@@ -182,12 +189,13 @@
       dot.addEventListener('mousemove', moveTip);
       dot.addEventListener('mouseleave', hideTip);
       s.appendChild(dot);
+      if (!p.labelled) return;
       if (Math.abs(p.ly - (Y(p.y) + 4)) > 2) s.appendChild(svg('line', { x1: X(p.x) + 6, y1: Y(p.y), x2: p.lx - 2, y2: p.ly - 4, stroke: 'var(--faint)', 'stroke-width': 1 }));
       s.appendChild(svg('text', { class: 'pt-label' + (ours ? ' ours' : ''), x: p.lx, y: p.ly }, p.m.label));
     });
     fig.appendChild(s);
     var cap = el('figcaption', { class: 'note' },
-      'Lines show 95% intervals. Forged-record resistance: share of episodes with a forged record in a user message where the model’s final answer is unaffected.');
+      'Labelled: our models, the base model, and the three most extreme off-the-shelf models on each axis; hover any dot for its name. Lines show 95% intervals. Forged-record resistance: share of episodes with a forged record in a user message where the model’s final answer is unaffected.');
     fig.appendChild(cap);
   }
 

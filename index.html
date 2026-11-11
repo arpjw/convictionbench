@@ -159,7 +159,7 @@
   </section>
 
   <section class="limits">
-    <p><b>Limitations.</b> Synthetic, closed-world tasks with short templated language; results do not establish robustness to real-world persuasion or misinformation. Provenance is a convention set by the system prompt. Models were evaluated without thinking mode. Gemma 4 and SmolLM3 were excluded because their chat templates hide or relabel tool messages. MobileLLM-Pro needed an older transformers version and follows the response format strictly only about half the time.</p>
+    <p><b>Limitations.</b> Synthetic, closed-world tasks with short templated language; results do not establish robustness to real-world persuasion or misinformation. Provenance is a convention set by the system prompt. Models were evaluated without thinking mode. Models whose chat templates drop, reject or relabel tool messages (Gemma 4, SmolLM3, Phi-4, GLM-4-9B, Nemotron-3.5-Bolt, Hunyuan-7B and others) were excluded, as were models that think by default even with thinking switched off (Nemotron-Nano-9B-v2, LFM2.5-8B-A1B). Several models answer partly in free text rather than JSON; their notes say so. Models added on 2026-11-11 ran on vLLM rather than Hugging Face generate; two earlier models re-run on vLLM matched within 0.02. MobileLLM-Pro needed an older transformers version and follows the response format strictly only about half the time.</p>
   </section>
 </main>
 
@@ -169,6 +169,6 @@
 </footer>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>
