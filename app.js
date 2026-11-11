@@ -260,6 +260,102 @@
     t.appendChild(tb);
   }
 
+
+  // ---------- channel test (provenance gap) ----------
+  function renderProvenance() {
+    var PG = DATA.provenance, fig = $('prov');
+    if (!PG || !fig) return;
+    fig.innerHTML = '';
+    var rows = DATA.models.filter(function (m) { return PG.models[m.key]; }).map(function (m) { return { m: m, g: PG.models[m.key] }; });
+    rows.sort(function (a, b) { return b.g.gap - a.g.gap; });
+    var W = Math.max(320, Math.min(960, fig.clientWidth || 960)), narrow = W < 600;
+    var rowH = 19, T = 30, B = 34, L = narrow ? 138 : 210, R = narrow ? 48 : 150, H = T + rows.length * rowH + B;
+    var X = function (v) { return L + v * (W - L - R); };
+    var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Record adoption through the tool channel versus pasted into a user message, ' + rows.length + ' models' });
+    for (var t = 0; t <= 1.0001; t += 0.25) {
+      root.appendChild(svg('line', { class: 'grid', x1: X(t), x2: X(t), y1: T - 6, y2: H - B + 4 }));
+      root.appendChild(svg('text', { class: 'tick', x: X(t), y: H - B + 20, 'text-anchor': 'middle' }, Math.round(t * 100) + '%'));
+    }
+    root.appendChild(svg('circle', { class: 'dot-tool', cx: L + 4, cy: 10, r: 4.5 }));
+    root.appendChild(svg('text', { class: 'tick', x: L + 13, y: 14 }, narrow ? 'tool' : 'via tool channel'));
+    var lx2 = narrow ? L + 56 : L + 124;
+    root.appendChild(svg('circle', { class: 'dot-paste', cx: lx2, cy: 10, r: 4.5 }));
+    root.appendChild(svg('text', { class: 'tick', x: lx2 + 9, y: 14 }, narrow ? 'pasted' : 'pasted by the user'));
+    root.appendChild(svg('text', { class: 'tick', x: W - 4, y: 14, 'text-anchor': 'end' }, narrow ? 'gap' : 'gap (tool − pasted)'));
+    rows.forEach(function (r, i) {
+      var y = T + i * rowH + rowH / 2, g = r.g, ours = isOurs(r.m);
+      var row = svg('g', { class: 'prow' });
+      row.appendChild(svg('rect', { class: 'prow-bg', x: 0, y: y - rowH / 2, width: W, height: rowH, rx: 3 }));
+      var nm = r.m.label.replace(' (ours)', '');
+      var shown = narrow && nm.length > 19 ? nm.slice(0, 18) + '\u2026' : nm;
+      var name = svg('text', { class: 'name' + (ours || r.m.group === 'base' ? ' ours' : ''), x: L - 10, y: y + 4, 'text-anchor': 'end' }, shown);
+      if (ours) name.setAttribute('style', 'fill: var(--' + r.m.group.replace('ours_', '').replace('sft', 'sft').replace('rl', 'rl') + ')');
+      row.appendChild(name);
+      row.appendChild(svg('line', { class: 'dumb', x1: X(Math.min(g.tool, g.pasted)), x2: X(Math.max(g.tool, g.pasted)), y1: y, y2: y }));
+      row.appendChild(svg('circle', { class: 'dot-paste', cx: X(g.pasted), cy: y, r: 4.5 }));
+      row.appendChild(svg('circle', { class: 'dot-tool', cx: X(g.tool), cy: y, r: 4.5 }));
+      var cls = g.gap_lo > 0.005 ? 'gap-up' : g.gap_hi < 0 ? 'gap-down' : 'gap-ns';
+      var txt = (g.gap >= 0 ? '+' : '−') + Math.abs(g.gap).toFixed(2) + (narrow ? '' : '  [' + g.gap_lo.toFixed(2) + ', ' + g.gap_hi.toFixed(2) + ']');
+      row.appendChild(svg('text', { class: 'gap-txt ' + cls, x: W - 4, y: y + 4, 'text-anchor': 'end' }, txt));
+      var html = '<h4>' + nm + '</h4><dl><dt>Adopts via tool</dt><dd>' + fmt(g.tool, 2) + '</dd><dt>Adopts when pasted</dt><dd>' + fmt(g.pasted, 2) +
+        '</dd><dt>Gap</dt><dd>' + fmt(g.gap, 2) + '</dd></dl><p>95% interval ' + g.gap_lo.toFixed(2) + ' to ' + g.gap_hi.toFixed(2) + ', ' + g.n + ' matched pairs.</p>';
+      row.addEventListener('mouseenter', function (e) { tip.innerHTML = html; tip.hidden = false; moveTip(e); });
+      row.addEventListener('mousemove', moveTip);
+      row.addEventListener('mouseleave', hideTip);
+      root.appendChild(row);
+    });
+    fig.appendChild(root);
+    var others = rows.filter(function (r) { return r.m.group === 'other'; });
+    var neg = others.filter(function (r) { return r.g.gap_hi < 0; }).length, pos = others.filter(function (r) { return r.g.gap_lo > 0.005; }).length;
+    $('prov-note').textContent = PG.n_pairs + ' matched pairs (' + PG.n_groups + ' problem groups, all three test splits): identical record text, ' +
+      'challenge and framing; only the channel differs, and the pasted version carries the forger’s “verified” label. “Adopts” = the final ' +
+      'answer is the value the record implies. Off-the-shelf models: ' + neg + ' of ' + others.length + ' adopt pasted records significantly more often, ' +
+      pos + ' prefer the tool channel by a clear margin, the rest show no difference. Green / red: interval excludes zero (cluster bootstrap over problem groups).';
+  }
+
+  // ---------- scaling within families ----------
+  var FAMILIES = [
+    ['Qwen3', 'fam1', [['B_Qwen3-0_6B', 0.6], ['E0_base', 1.7], ['B_Qwen3-4B', 4], ['B_Qwen3-8B', 8.2], ['B_Qwen3-14B', 14.8]]],
+    ['Qwen3.5', 'fam2', [['B_Qwen3_5-0_8B', 0.9], ['B_Qwen3_5-2B', 2.3], ['B_Qwen3_5-4B', 4.7], ['B_Qwen3_5-9B', 9.7]]],
+    ['Granite 4', 'fam3', [['B_granite-4_0-1b', 1.6], ['B_granite-4_2-3b', 3.7], ['B_granite-4_2-8b', 8.8]]],
+    ['Ministral-3', 'fam4', [['B_Ministral-3-3B-Instruct-2512-BF16', 3.8], ['B_Ministral-3-8B-Instruct-2512-BF16', 8.9], ['B_Ministral-3-14B-Instruct-2512-BF16', 13.9]]]
+  ];
+  function renderScaleChart(fig, metric) {
+    if (!fig) return;
+    var cap = fig.querySelector('figcaption'); fig.innerHTML = ''; if (cap) fig.appendChild(cap);
+    var by = {}; DATA.models.forEach(function (m) { by[m.key] = m; });
+    var W = 460, H = 280, L = 40, R = 86, T = 10, B = 30;
+    var lx = function (v) { return Math.log(v); }, x0 = lx(0.5), x1 = lx(16);
+    var X = function (v) { return L + (lx(v) - x0) / (x1 - x0) * (W - L - R); }, Y = function (v) { return T + (1 - v) * (H - T - B); };
+    var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': cap ? cap.textContent + ' by model size, four families' : '' });
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
+      root.appendChild(svg('line', { class: 'grid', x1: L, x2: W - R, y1: Y(v), y2: Y(v) }));
+      root.appendChild(svg('text', { class: 'tick', x: L - 6, y: Y(v) + 4, 'text-anchor': 'end' }, v.toFixed(2)));
+    });
+    [0.5, 1, 2, 4, 8, 16].forEach(function (v) { root.appendChild(svg('text', { class: 'tick', x: X(v), y: H - 8, 'text-anchor': 'middle' }, v + 'B')); });
+    var ends = [];
+    FAMILIES.forEach(function (f) {
+      var pts = f[2].filter(function (p) { return by[p[0]]; }).map(function (p) { return { m: by[p[0]], s: p[1], v: by[p[0]].metrics.test_structural[metric].v }; });
+      var c = 'var(--' + f[1] + ')';
+      root.appendChild(svg('polyline', { class: 'fam-line', stroke: c, points: pts.map(function (p) { return X(p.s) + ',' + Y(p.v); }).join(' ') }));
+      pts.forEach(function (p) {
+        var dot = svg('circle', { cx: X(p.s), cy: Y(p.v), r: 4.5, fill: c, stroke: 'var(--bg)', 'stroke-width': 2 });
+        dot.addEventListener('mouseenter', function (e) { tip.innerHTML = '<h4>' + p.m.label + '</h4><dl><dt>' + (cap ? cap.textContent : metric) + '</dt><dd>' + fmt(p.v, 2) + '</dd><dt>Parameters</dt><dd>' + p.s + 'B</dd></dl>'; tip.hidden = false; moveTip(e); });
+        dot.addEventListener('mousemove', moveTip); dot.addEventListener('mouseleave', hideTip);
+        root.appendChild(dot);
+      });
+      var last = pts[pts.length - 1]; ends.push({ y: Y(last.v), x: X(last.s), name: f[0], c: c });
+    });
+    ends.sort(function (a, b) { return a.y - b.y; });
+    for (var i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 13) ends[i].y = ends[i - 1].y + 13;
+    ends.forEach(function (e) { root.appendChild(svg('text', { class: 'fam-label', x: W - R + 10, y: e.y + 4, fill: e.c }, e.name)); });
+    fig.appendChild(root);
+  }
+  function renderScaling() {
+    renderScaleChart($('scale-forged'), 'fabricated_evidence_resistance');
+    renderScaleChart($('scale-tool'), 'authenticated_update_accuracy');
+  }
+
   // ---------- headline numbers ----------
   function renderHeadline() {
     var others = DATA.models.filter(function (m) { return m.group === 'other'; });
@@ -278,6 +374,8 @@
     renderHeadline();
     renderBoard();
     renderScatter();
+    renderProvenance();
+    renderScaling();
     renderHeat();
     renderThinking();
   }).catch(function (e) {

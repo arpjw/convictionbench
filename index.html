@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -75,6 +75,19 @@
     </div>
     <p class="lede">Resisting <em>social</em> pressure and resisting <em>forged evidence</em> are different skills. Off-the-shelf models vary widely in how often they cave, but none of them checks where a record came from: they treat a record pasted into a user message much as if the tool had sent it.</p>
     <figure class="chart" id="scatter" aria-label="Scatter plot of resistance to social pressure against resistance to forged records"></figure>
+  </section>
+
+  <section id="channel">
+    <div class="sec-head"><h2>Does any model check the channel?</h2></div>
+    <p class="lede">The cleanest test of provenance: take the <em>same</em> record and send it two ways, through the tool channel (where the system prompt says facts come from) or pasted into the user&#8217;s message. A model that checks provenance should adopt it far more often from the tool. None of the 37 off-the-shelf models does. Most adopt it <em>more</em> often when it is pasted, alongside the &#8220;verified&#8221; labels a forger adds. Only training on the provenance rule (our SFT and v2 adapters) opens a gap in the right direction.</p>
+    <figure class="chart" id="prov" aria-label="For each model, how often it adopts a record sent through the tool channel versus the same record pasted into a user message"></figure>
+    <p class="note" id="prov-note"></p>
+    <h3 class="sub">Bigger models follow records, whichever channel they arrive through</h3>
+    <p class="lede">Within a model family, larger models accept more authenticated tool updates and, in Qwen3, Qwen3.5 and Granite, resist fewer forged records (Ministral-3 ignores almost none at any size). Across all 37 off-the-shelf models, size correlates with tool-update acceptance (Spearman &#961; = +0.57) and against forged-record resistance (&#961; = &#8722;0.54). Scale makes models more responsive to records, not more careful about where they come from.</p>
+    <div class="scale-grid">
+      <figure class="chart" id="scale-forged"><figcaption>Ignores forged records (held-out problems)</figcaption></figure>
+      <figure class="chart" id="scale-tool"><figcaption>Accepts authenticated tool updates (held-out problems)</figcaption></figure>
+    </div>
   </section>
 
   <section id="pressure">
@@ -169,6 +182,6 @@
 </footer>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

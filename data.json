@@ -12783,5 +12783,339 @@
     "n": 1257
    }
   ]
+ },
+ "provenance": {
+  "n_pairs": 790,
+  "n_groups": 395,
+  "models": {
+   "E3b_grpo_base": {
+    "tool": 0.6329,
+    "pasted": 0.662,
+    "gap": -0.0291,
+    "gap_lo": -0.0709,
+    "gap_hi": 0.0101,
+    "n": 790
+   },
+   "V2": {
+    "tool": 0.3,
+    "pasted": 0.1772,
+    "gap": 0.1228,
+    "gap_lo": 0.0861,
+    "gap_hi": 0.1595,
+    "n": 790
+   },
+   "E2_sft": {
+    "tool": 0.6152,
+    "pasted": 0.0772,
+    "gap": 0.538,
+    "gap_lo": 0.4861,
+    "gap_hi": 0.5886,
+    "n": 790
+   },
+   "E0_base": {
+    "tool": 0.2544,
+    "pasted": 0.3013,
+    "gap": -0.0468,
+    "gap_lo": -0.0785,
+    "gap_hi": -0.0164,
+    "n": 790
+   },
+   "B_Qwen3_5-9B": {
+    "tool": 0.8418,
+    "pasted": 0.862,
+    "gap": -0.0203,
+    "gap_lo": -0.0494,
+    "gap_hi": 0.0089,
+    "n": 790
+   },
+   "B_Qwen3_5-4B": {
+    "tool": 0.6494,
+    "pasted": 0.6633,
+    "gap": -0.0139,
+    "gap_lo": -0.0481,
+    "gap_hi": 0.0215,
+    "n": 790
+   },
+   "B_Qwen3-8B": {
+    "tool": 0.381,
+    "pasted": 0.4063,
+    "gap": -0.0253,
+    "gap_lo": -0.0506,
+    "gap_hi": -0.0013,
+    "n": 790
+   },
+   "B_granite-4_2-8b": {
+    "tool": 0.4405,
+    "pasted": 0.5329,
+    "gap": -0.0924,
+    "gap_lo": -0.1291,
+    "gap_hi": -0.0557,
+    "n": 790
+   },
+   "B_Ministral-3-8B-Instruct-2512-BF16": {
+    "tool": 0.4797,
+    "pasted": 0.4937,
+    "gap": -0.0139,
+    "gap_lo": -0.0494,
+    "gap_hi": 0.0203,
+    "n": 790
+   },
+   "B_Olmo-3-7B-Instruct": {
+    "tool": 0.181,
+    "pasted": 0.3418,
+    "gap": -0.1608,
+    "gap_lo": -0.1949,
+    "gap_hi": -0.1253,
+    "n": 790
+   },
+   "B_NVIDIA-Nemotron-3-Nano-4B-BF16": {
+    "tool": 0.3127,
+    "pasted": 0.3671,
+    "gap": -0.0544,
+    "gap_lo": -0.0836,
+    "gap_hi": -0.0266,
+    "n": 790
+   },
+   "B_Phi-4-mini-instruct": {
+    "tool": 0.2304,
+    "pasted": 0.2899,
+    "gap": -0.0595,
+    "gap_lo": -0.0899,
+    "gap_hi": -0.0304,
+    "n": 790
+   },
+   "B_Llama-3_2-3B-Instruct": {
+    "tool": 0.119,
+    "pasted": 0.2278,
+    "gap": -0.1089,
+    "gap_lo": -0.138,
+    "gap_hi": -0.081,
+    "n": 790
+   },
+   "B_MobileLLM-Pro": {
+    "tool": 0.1089,
+    "pasted": 0.1797,
+    "gap": -0.0709,
+    "gap_lo": -0.0962,
+    "gap_hi": -0.0468,
+    "n": 790
+   },
+   "B_Qwen3_5-2B": {
+    "tool": 0.2278,
+    "pasted": 0.319,
+    "gap": -0.0911,
+    "gap_lo": -0.1266,
+    "gap_hi": -0.057,
+    "n": 790
+   },
+   "B_Qwen3_5-0_8B": {
+    "tool": 0.2051,
+    "pasted": 0.2405,
+    "gap": -0.0354,
+    "gap_lo": -0.0697,
+    "gap_hi": 0.0013,
+    "n": 790
+   },
+   "B_Ministral-3-3B-Instruct-2512-BF16": {
+    "tool": 0.5937,
+    "pasted": 0.6658,
+    "gap": -0.0722,
+    "gap_lo": -0.1139,
+    "gap_hi": -0.0253,
+    "n": 790
+   },
+   "B_LFM3-1_7B": {
+    "tool": 0.1709,
+    "pasted": 0.3582,
+    "gap": -0.1873,
+    "gap_lo": -0.2278,
+    "gap_hi": -0.1456,
+    "n": 790
+   },
+   "B_Qwen3-14B": {
+    "tool": 0.4658,
+    "pasted": 0.4924,
+    "gap": -0.0266,
+    "gap_lo": -0.057,
+    "gap_hi": 0.0038,
+    "n": 790
+   },
+   "B_Qwen3-4B-Instruct-2507": {
+    "tool": 0.5506,
+    "pasted": 0.6152,
+    "gap": -0.0646,
+    "gap_lo": -0.1,
+    "gap_hi": -0.0316,
+    "n": 790
+   },
+   "B_Qwen3-4B": {
+    "tool": 0.3443,
+    "pasted": 0.3671,
+    "gap": -0.0228,
+    "gap_lo": -0.0494,
+    "gap_hi": 0.0051,
+    "n": 790
+   },
+   "B_Qwen3-0_6B": {
+    "tool": 0.1722,
+    "pasted": 0.1848,
+    "gap": -0.0127,
+    "gap_lo": -0.0316,
+    "gap_hi": 0.0063,
+    "n": 790
+   },
+   "B_MiMo-V2_6-Distill-Qwen-9B": {
+    "tool": 0.6975,
+    "pasted": 0.6557,
+    "gap": 0.0418,
+    "gap_lo": 0.0013,
+    "gap_hi": 0.0823,
+    "n": 790
+   },
+   "B_Ministral-3-14B-Instruct-2512-BF16": {
+    "tool": 0.419,
+    "pasted": 0.5646,
+    "gap": -0.1456,
+    "gap_lo": -0.1797,
+    "gap_hi": -0.1101,
+    "n": 790
+   },
+   "B_granite-4_2-3b": {
+    "tool": 0.2722,
+    "pasted": 0.3203,
+    "gap": -0.0481,
+    "gap_lo": -0.0759,
+    "gap_hi": -0.0215,
+    "n": 790
+   },
+   "B_granite-4_0-h-tiny": {
+    "tool": 0.3013,
+    "pasted": 0.3772,
+    "gap": -0.0759,
+    "gap_lo": -0.1076,
+    "gap_hi": -0.0443,
+    "n": 790
+   },
+   "B_granite-4_0-1b": {
+    "tool": 0.1658,
+    "pasted": 0.2329,
+    "gap": -0.0671,
+    "gap_lo": -0.0937,
+    "gap_hi": -0.0392,
+    "n": 790
+   },
+   "B_Falcon-H1-7B-Instruct": {
+    "tool": 0.4658,
+    "pasted": 0.4772,
+    "gap": -0.0114,
+    "gap_lo": -0.0443,
+    "gap_hi": 0.019,
+    "n": 790
+   },
+   "B_Falcon-H1-3B-Instruct": {
+    "tool": 0.2038,
+    "pasted": 0.3165,
+    "gap": -0.1127,
+    "gap_lo": -0.1468,
+    "gap_hi": -0.0772,
+    "n": 790
+   },
+   "B_MiniCPM5-2B": {
+    "tool": 0.3506,
+    "pasted": 0.3532,
+    "gap": -0.0025,
+    "gap_lo": -0.0405,
+    "gap_hi": 0.0329,
+    "n": 790
+   },
+   "B_MiniCPM5-1B": {
+    "tool": 0.2152,
+    "pasted": 0.3329,
+    "gap": -0.1177,
+    "gap_lo": -0.1532,
+    "gap_hi": -0.0823,
+    "n": 790
+   },
+   "B_kanana-2-3b-instruct": {
+    "tool": 0.2861,
+    "pasted": 0.2962,
+    "gap": -0.0101,
+    "gap_lo": -0.0443,
+    "gap_hi": 0.0228,
+    "n": 790
+   },
+   "B_EuroLLM-9B-Instruct-2512": {
+    "tool": 0.1848,
+    "pasted": 0.2203,
+    "gap": -0.0354,
+    "gap_lo": -0.0608,
+    "gap_hi": -0.0127,
+    "n": 790
+   },
+   "B_EXAONE-4_0-1_2B": {
+    "tool": 0.2304,
+    "pasted": 0.2848,
+    "gap": -0.0544,
+    "gap_lo": -0.081,
+    "gap_hi": -0.0278,
+    "n": 790
+   },
+   "B_Hunyuan-1_8B-Instruct": {
+    "tool": 0.1747,
+    "pasted": 0.2342,
+    "gap": -0.0595,
+    "gap_lo": -0.0886,
+    "gap_hi": -0.0278,
+    "n": 790
+   },
+   "B_Hunyuan-0_5B-Instruct": {
+    "tool": 0.1747,
+    "pasted": 0.1861,
+    "gap": -0.0114,
+    "gap_lo": -0.0354,
+    "gap_hi": 0.0114,
+    "n": 790
+   },
+   "B_SmolLM2-1_7B-Instruct": {
+    "tool": 0.1165,
+    "pasted": 0.1823,
+    "gap": -0.0658,
+    "gap_lo": -0.0924,
+    "gap_hi": -0.0405,
+    "n": 790
+   },
+   "B_LFM2_5-1_2B-Instruct": {
+    "tool": 0.0304,
+    "pasted": 0.0722,
+    "gap": -0.0418,
+    "gap_lo": -0.0658,
+    "gap_hi": -0.019,
+    "n": 790
+   },
+   "B_LFM2_5-2_6B": {
+    "tool": 0.1051,
+    "pasted": 0.181,
+    "gap": -0.0759,
+    "gap_lo": -0.1038,
+    "gap_hi": -0.0506,
+    "n": 790
+   },
+   "B_AFM-4_5B": {
+    "tool": 0.1177,
+    "pasted": 0.1911,
+    "gap": -0.0734,
+    "gap_lo": -0.1038,
+    "gap_hi": -0.0443,
+    "n": 790
+   },
+   "B_xgen-small-4B-instruct-r": {
+    "tool": 0.1949,
+    "pasted": 0.2392,
+    "gap": -0.0443,
+    "gap_lo": -0.0797,
+    "gap_hi": -0.0063,
+    "n": 790
+   }
+  }
  }
 }
