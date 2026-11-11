@@ -193,3 +193,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--sft); outline-o
   .mname small { display: none; }
   .tasks td:first-child { white-space: normal; }
 }
+
+.sec-head .more { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--faint); padding-bottom: 2px; }
+.sec-head .more:hover { border-color: var(--fg); }
+.model-strip { display: grid; grid-template-columns: repeat(3, 1fr); text-decoration: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background .2s; }
+.model-strip:hover { background: color-mix(in srgb, var(--track) 50%, transparent); }
+.model-strip span { padding: 16px 18px 16px 0; font-size: 13px; color: var(--muted); }
+.model-strip span + span { padding-left: 18px; border-left: 1px solid var(--line); }
+.model-strip b { display: block; font: 500 13.5px var(--mono); color: var(--fg); margin-bottom: 4px; }
+@media (max-width: 720px) {
+  .model-strip { grid-template-columns: 1fr; }
+  .model-strip span + span { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+}

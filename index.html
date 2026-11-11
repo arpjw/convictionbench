@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -24,6 +24,7 @@
   <a class="brand" href="https://aryasomu.com/">Arya Somu</a>
   <nav aria-label="Sections">
     <a href="./" aria-current="page">Results</a>
+    <a href="models/">Models</a>
     <a href="blog/">Blog</a>
     <a class="sec" href="#method">Method</a>
     <a class="sec" href="#cite">Cite</a>
@@ -40,7 +41,7 @@
     <p class="links">
       <a href="blog/">Read the blog post <span>→</span></a>
       <a href="https://huggingface.co/datasets/arpjw/ConvictionBench">Dataset <span>↗</span></a>
-      <a href="https://huggingface.co/arpjw/conviction-1.7b-rl">Models <span>↗</span></a>
+      <a href="models/">Models <span>→</span></a>
       <a href="https://github.com/arpjw/conviction">Code <span>↗</span></a>
     </p>
   </section>
@@ -137,17 +138,13 @@
   </section>
 
   <section id="models">
-    <div class="sec-head"><h2>Training for conviction</h2></div>
-    <p class="lede">We trained LoRA adapters (r = 16, 17.4M parameters) on Qwen3-1.7B, using disjoint halves of the training split. SFT and RL show a trade-off: imitation learns the provenance rule, while reinforcement learning generalises to unseen problem types and stays open to correction. A follow-up, v2, tried to get both with a light SFT warm-start before RL; it learned provenance but moved along the trade-off rather than escaping it.</p>
-    <table class="tasks models">
-      <thead><tr><th>Model</th><th>Recipe</th><th>Strength</th><th>Weakness</th></tr></thead>
-      <tbody>
-        <tr><td><i class="sw ours_sft"></i><a href="https://huggingface.co/arpjw/conviction-1.7b-sft">conviction-1.7b-sft</a></td><td>SFT on 4,000 solver-written responses, 11 GPU-minutes</td><td>Resists forged records (0.96) and abstains correctly (0.96)</td><td>On unseen problem types, rarely accepts corrections to its own answers (7%)</td></tr>
-        <tr><td><i class="sw ours_rl"></i><a href="https://huggingface.co/arpjw/conviction-1.7b-rl">conviction-1.7b-rl</a></td><td>GRPO from base with a deterministic reward, 200 steps, 65 GPU-minutes</td><td>Best 1.7B on held-out problems; lowest pressure-flip rate of all 13 models</td><td>Does not learn the provenance rule (0.19)</td></tr>
-        <tr><td><i class="sw ours_v2"></i><a href="https://huggingface.co/arpjw/conviction-1.7b-v2">conviction-1.7b-v2</a></td><td>SFT on 1,000 responses, then the same 200-step GRPO</td><td>Best held-out forged-record resistance of any model tested (0.58); near-perfect format (99.5%)</td><td>Gives up RL&#8217;s held-out accuracy (0.56 vs 0.64); accepts corrections to its own answers only 24% of the time</td></tr>
-      </tbody>
-    </table>
-    <p class="note">A second RL seed reproduces the profile (held-out final accuracy 0.642 vs 0.644). Total compute for the project: about $17 of rented GPU time.</p>
+    <div class="sec-head"><h2>Training for conviction</h2><a class="more" href="models/">Explore the models →</a></div>
+    <p class="lede">We trained three LoRA adapters on Qwen3-1.7B. Imitation learns the provenance rule; reinforcement learning generalises to unseen problems and stays open to correction. A light SFT warm-start before RL (v2) moved along that trade-off rather than escaping it.</p>
+    <a class="model-strip" href="models/">
+      <span><b><i class="sw ours_sft"></i>conviction-1.7b-sft</b>learns the rule</span>
+      <span><b><i class="sw ours_rl"></i>conviction-1.7b-rl</b>learns to reason</span>
+      <span><b><i class="sw ours_v2"></i>conviction-1.7b-v2</b>gets the rule to generalise</span>
+    </a>
   </section>
 
   <section id="cite">

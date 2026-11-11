@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ConvictionBench: Models</title>
+<meta name="description" content="Three LoRA adapters for Qwen3-1.7B trained on ConvictionBench with SFT, GRPO, and both: what each recipe teaches, how they trained, and how they answer the same held-out problem.">
+<link rel="canonical" href="https://convictionbench.org/models/">
+<meta property="og:title" content="ConvictionBench: the models">
+<meta property="og:description" content="Imitation teaches the provenance rule; reinforcement learning teaches generalisation. Three 1.7B models, one trade-off.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://convictionbench.org/models/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem('cb-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=6">
+<link rel="stylesheet" href="models.css?v=2">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="https://aryasomu.com/">Arya Somu</a>
+  <nav aria-label="Sections">
+    <a href="../">Results</a>
+    <a href="./" aria-current="page">Models</a>
+    <a href="../blog/">Blog</a>
+    <a class="sec" href="#learn">Training</a>
+    <a class="sec" href="#episode">Examples</a>
+    <button class="theme" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>The models</h1>
+    <p class="tag">Three LoRA adapters for Qwen3-1.7B. Imitation teaches the rule; reinforcement learning teaches the reasoning. So far, no recipe teaches both.</p>
+    <p class="links">
+      <a href="https://huggingface.co/arpjw/conviction-1.7b-sft">conviction-1.7b-sft <span>↗</span></a>
+      <a href="https://huggingface.co/arpjw/conviction-1.7b-rl">conviction-1.7b-rl <span>↗</span></a>
+      <a href="https://huggingface.co/arpjw/conviction-1.7b-v2">conviction-1.7b-v2 <span>↗</span></a>
+      <a href="https://github.com/arpjw/conviction">Training code <span>↗</span></a>
+    </p>
+  </section>
+
+  <section class="headline" aria-label="Key facts">
+    <div><strong>17.4M</strong><span>trainable parameters per adapter: 1% of the 1.7B model (LoRA r = 16 on every linear layer)</span></div>
+    <div><strong id="k-minutes">–</strong><span>GPU-minutes to train all three, on a single rented GPU each</span></div>
+    <div><strong id="k-forged">–</strong><span>best forged-record resistance on held-out problems of any model tested (Conviction-v2)</span></div>
+  </section>
+
+  <section id="cards">
+    <div class="sec-head"><h2>Three recipes</h2></div>
+    <p class="lede">All three start from the same base model and see disjoint halves of the same training split. Bars show held-out problem types (the hardest split); the grey tick is the base model.</p>
+    <div class="cards" id="card-grid"></div>
+  </section>
+
+  <section id="map">
+    <div class="sec-head">
+      <h2>Where each recipe moves the model</h2>
+      <div class="seg" role="tablist" aria-label="Split" id="map-split"></div>
+    </div>
+    <p class="lede">Each arrow starts at the base model. RL moves it right (more accurate on new problems); SFT moves it up on the provenance rule. v2 gets furthest up on held-out problems but gives back some of RL&#8217;s accuracy.</p>
+    <div class="seg map-y" role="tablist" aria-label="Vertical axis" id="map-y"></div>
+    <figure class="chart" id="map-chart"></figure>
+  </section>
+
+  <section id="fingerprint">
+    <div class="sec-head">
+      <h2>Fingerprints</h2>
+      <div class="seg" role="tablist" aria-label="Split" id="fp-split"></div>
+    </div>
+    <p class="lede">Every metric on one scale, higher is better. Whiskers are 95% cluster-bootstrap intervals; the hollow ring is the base model. Hover a row for the numbers.</p>
+    <figure class="chart" id="fp-chart"></figure>
+  </section>
+
+  <section id="learn">
+    <div class="sec-head"><h2>Watching them learn</h2></div>
+    <p class="lede">GRPO learns only from groups of samples that earn <em>different</em> rewards. After full SFT, the model already answers the training prompts the same way every time, so most groups carry no signal and RL has almost nothing to work with. A 1,000-example warm-start (v2) leaves room to learn.</p>
+    <div class="legend" id="learn-legend"></div>
+    <div class="multiples">
+      <figure class="chart mini" id="c-reward"><figcaption>Mean reward per GRPO step</figcaption></figure>
+      <figure class="chart mini" id="c-zero"><figcaption>Groups with no learning signal</figcaption></figure>
+      <figure class="chart mini" id="c-len"><figcaption>Reply length (tokens)</figcaption></figure>
+    </div>
+    <p class="note" id="learn-note"></p>
+  </section>
+
+  <section id="episode">
+    <div class="sec-head"><h2>One problem, four challenges</h2></div>
+    <p class="lede">A held-out problem (modular arithmetic never appears in training) from one counterfactual group. Each reply is graded on two things: the final answer, and the decision (<code>keep</code> or <code>revise</code>). These are the models&#8217; real, unedited outputs.</p>
+    <div class="seg ep-tabs" role="tablist" aria-label="Challenge" id="ep-tabs"></div>
+    <div class="ep-grid">
+      <div class="episode" id="ep-convo"></div>
+      <div class="replies" id="ep-replies"></div>
+    </div>
+  </section>
+
+  <section id="use">
+    <div class="sec-head">
+      <h2>Use them</h2>
+      <div class="seg" role="tablist" aria-label="Model" id="use-tabs"></div>
+    </div>
+    <p class="lede" id="use-desc"></p>
+    <div class="code-wrap">
+      <button class="copy" type="button" id="copy">Copy</button>
+      <pre class="bib" id="use-code"></pre>
+    </div>
+    <p class="note">Greedy decoding, non-thinking mode. The adapters expect the benchmark system prompt (<code>system_prompt.txt</code> in each repository) and treat <code>tool</code> messages as the only authoritative source of facts. They are research artefacts trained on synthetic problems: do not deploy them as a defence against manipulation.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>ConvictionBench v0.1 · adapters Apache-2.0 · base model © Qwen team</span>
+  <a href="https://aryasomu.com/">Arya Somu</a>
+</footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<script src="models.js?v=5"></script>
+</body>
+</html>
