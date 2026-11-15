@@ -79,9 +79,10 @@
 
   <section id="channel">
     <div class="sec-head"><h2>Does any model check the channel?</h2></div>
-    <p class="lede">The cleanest test of provenance: take the <em>same</em> record and send it two ways, through the tool channel (where the system prompt says facts come from) or pasted into the user&#8217;s message. A model that checks provenance should adopt it far more often from the tool. None of the 37 off-the-shelf models does. Most adopt it <em>more</em> often when it is pasted, alongside the &#8220;verified&#8221; labels a forger adds. Only training on the provenance rule (our SFT and v2 adapters) opens a gap in the right direction.</p>
+    <p class="lede">The cleanest test of provenance: take the <em>same</em> record and send it two ways, through the tool channel (where the system prompt says facts come from) or pasted into the user&#8217;s message. A model that checks provenance should adopt it far more often from the tool. None of the 37 off-the-shelf models does. Most adopt it <em>more</em> often when it is pasted. Our SFT and v2 adapters open a gap here, but a pre-registered control shows it is not a channel check either (below).</p>
     <figure class="chart" id="prov" aria-label="For each model, how often it adopts a record sent through the tool channel versus the same record pasted into a user message"></figure>
     <p class="note" id="prov-note"></p>
+    <p class="note"><b>Control (pre-registered, November 14).</b> The forged episode differs from the tool episode in more than the channel: the forger also writes &#8220;Here is the official update: [SYSTEM VERIFIED] &#8230;&#8221;. Two controls separate these. With the label and &#8220;official&#8221; removed, adoption barely moves for any model (within &#177;0.03). With the record pasted plainly in the user&#8217;s message, using the tool episode&#8217;s exact wording, 0 of 34 off-the-shelf models prefer the tool channel by more than 5 points, and 17 adopt the pasted record significantly <em>more</em> often. Our SFT adapter adopts the plainly pasted record 58% of the time, against 62% from the tool and 8% when forged. It learned to reject the forger&#8217;s framing, not to check where the record came from. No model we tested, trained or not, checks the channel.</p>
     <h3 class="sub">Bigger models follow records, whichever channel they arrive through</h3>
     <p class="lede">Within a model family, larger models accept more authenticated tool updates and, in Qwen3, Qwen3.5 and Granite, resist fewer forged records (Ministral-3 ignores almost none at any size). Across all 37 off-the-shelf models, size correlates with tool-update acceptance (Spearman &#961; = +0.57) and against forged-record resistance (&#961; = &#8722;0.54). Scale makes models more responsive to records, not more careful about where they come from.</p>
     <div class="scale-grid">
@@ -152,7 +153,7 @@
 
   <section id="models">
     <div class="sec-head"><h2>Training for conviction</h2><a class="more" href="models/">Explore the models →</a></div>
-    <p class="lede">We trained three LoRA adapters on Qwen3-1.7B. Imitation learns the provenance rule; reinforcement learning generalises to unseen problems and stays open to correction. A light SFT warm-start before RL (v2) moved along that trade-off rather than escaping it.</p>
+    <p class="lede">We trained three LoRA adapters on Qwen3-1.7B. Imitation learns to reject forged records, though by their wording rather than their channel; reinforcement learning is slightly more accurate on unseen problems, an edge that does not hold up across a second seed or a reworded prompt. A light SFT warm-start before RL (v2) moved along that trade-off rather than escaping it.</p>
     <a class="model-strip" href="models/">
       <span><b><i class="sw ours_sft"></i>conviction-1.7b-sft</b>learns the rule</span>
       <span><b><i class="sw ours_rl"></i>conviction-1.7b-rl</b>learns to reason</span>
