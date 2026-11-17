@@ -26,6 +26,7 @@
     <a href="./" aria-current="page">Results</a>
     <a href="models/">Models</a>
     <a href="blog/">Blog</a>
+    <a href="paper.pdf">Paper</a>
     <a class="sec" href="#method">Method</a>
     <a class="sec" href="#cite">Cite</a>
     <button class="theme" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">
@@ -39,6 +40,7 @@
     <h1>ConvictionBench</h1>
     <p class="tag">Do language models change their answers for good reasons, and only for good reasons?</p>
     <p class="links">
+      <a href="paper.pdf">Read the paper <span>PDF</span></a>
       <a href="blog/">Read the blog post <span>→</span></a>
       <a href="https://huggingface.co/datasets/arpjw/ConvictionBench">Dataset <span>↗</span></a>
       <a href="models/">Models <span>→</span></a>
@@ -155,25 +157,27 @@
     <div class="sec-head"><h2>Training for conviction</h2><a class="more" href="models/">Explore the models →</a></div>
     <p class="lede">We trained three LoRA adapters on Qwen3-1.7B. Imitation learns to reject forged records, though by their wording rather than their channel; reinforcement learning is slightly more accurate on unseen problems, an edge that does not hold up across a second seed or a reworded prompt. A light SFT warm-start before RL (v2) moved along that trade-off rather than escaping it.</p>
     <a class="model-strip" href="models/">
-      <span><b><i class="sw ours_sft"></i>conviction-1.7b-sft</b>learns the rule</span>
+      <span><b><i class="sw ours_sft"></i>conviction-1.7b-sft</b>rejects forged wording</span>
       <span><b><i class="sw ours_rl"></i>conviction-1.7b-rl</b>learns to reason</span>
-      <span><b><i class="sw ours_v2"></i>conviction-1.7b-v2</b>gets the rule to generalise</span>
+      <span><b><i class="sw ours_v2"></i>conviction-1.7b-v2</b>sits between the two</span>
     </a>
   </section>
 
   <section id="cite">
     <div class="sec-head"><h2>Cite</h2></div>
+    <p class="lede">Paper: <a href="paper.pdf">ConvictionBench: Evidence-Sensitive Belief Revision in Language Models</a> (preprint, November 2026, PDF).</p>
     <pre class="bib">@misc{somu2026convictionbench,
   title  = {ConvictionBench: Evidence-Sensitive Belief Revision in Language Models},
   author = {Somu, Arya},
   year   = {2026},
-  note   = {v0.1},
-  url    = {https://convictionbench.org/}
+  month  = nov,
+  note   = {Preprint. Benchmark v0.1},
+  url    = {https://convictionbench.org/paper.pdf}
 }</pre>
   </section>
 
   <section class="limits">
-    <p><b>Limitations.</b> Synthetic, closed-world tasks with short templated language; results do not establish robustness to real-world persuasion or misinformation. Provenance is a convention set by the system prompt. Models were evaluated without thinking mode. Models whose chat templates drop, reject or relabel tool messages (Gemma 4, SmolLM3, Phi-4, GLM-4-9B, Nemotron-3.5-Bolt, Hunyuan-7B and others) were excluded, as were models that think by default even with thinking switched off (Nemotron-Nano-9B-v2, LFM2.5-8B-A1B). Several models answer partly in free text rather than JSON; their notes say so. Models added on 2026-11-11 ran on vLLM rather than Hugging Face generate; two earlier models re-run on vLLM matched within 0.02. MobileLLM-Pro needed an older transformers version and follows the response format strictly only about half the time.</p>
+    <p><b>Limitations.</b> Synthetic, closed-world tasks with short templated language; results do not establish robustness to real-world persuasion or misinformation. Provenance is a convention set by the system prompt. Leaderboard models were evaluated without thinking mode (thinking is compared separately above). Labels come from exact solvers; no human review of the episodes has been done yet. Models whose chat templates drop, reject or relabel tool messages (Gemma 4, SmolLM3, Phi-4, GLM-4-9B, Nemotron-3.5-Bolt, Hunyuan-7B and others) were excluded, as were models that think by default even with thinking switched off (Nemotron-Nano-9B-v2, LFM2.5-8B-A1B). Several models answer partly in free text rather than JSON; their notes say so. Models added on 2026-11-11 ran on vLLM rather than Hugging Face generate; two earlier models re-run on vLLM matched within 0.02. MobileLLM-Pro needed an older transformers version and follows the response format strictly only about half the time.</p>
   </section>
 </main>
 

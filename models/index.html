@@ -27,6 +27,7 @@
     <a href="../">Results</a>
     <a href="./" aria-current="page">Models</a>
     <a href="../blog/">Blog</a>
+    <a href="../paper.pdf">Paper</a>
     <a class="sec" href="#learn">Training</a>
     <a class="sec" href="#episode">Examples</a>
     <button class="theme" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">
@@ -38,7 +39,7 @@
 <main>
   <section class="hero">
     <h1>The models</h1>
-    <p class="tag">Three LoRA adapters for Qwen3-1.7B. Imitation teaches the rule; reinforcement learning teaches the reasoning. So far, no recipe teaches both.</p>
+    <p class="tag">Three LoRA adapters for Qwen3-1.7B. Imitation learns to reject forged records, by their wording rather than their channel; reinforcement learning stays open to correction on unseen problems. So far, no recipe does both.</p>
     <p class="links">
       <a href="https://huggingface.co/arpjw/conviction-1.7b-sft">conviction-1.7b-sft <span>↗</span></a>
       <a href="https://huggingface.co/arpjw/conviction-1.7b-rl">conviction-1.7b-rl <span>↗</span></a>
@@ -50,7 +51,7 @@
   <section class="headline" aria-label="Key facts">
     <div><strong>17.4M</strong><span>trainable parameters per adapter: 1% of the 1.7B model (LoRA r = 16 on every linear layer)</span></div>
     <div><strong id="k-minutes">–</strong><span>GPU-minutes to train all three, on a single rented GPU each</span></div>
-    <div><strong id="k-forged">–</strong><span>best forged-record resistance on held-out problems of any model tested (Conviction-v2)</span></div>
+    <div><strong id="k-forged">–</strong><span>best forged-record resistance on held-out problems of any leaderboard model (Conviction-v2)</span></div>
   </section>
 
   <section id="cards">

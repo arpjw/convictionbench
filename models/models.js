@@ -7,17 +7,17 @@
       kicker: 'Supervised fine-tuning: imitate the solver',
       pipe: [['Qwen3-1.7B'], ['SFT · 4,000 examples', 'step'], ['sft', 'out']],
       facts: ['125 steps', '11 GPU-min'],
-      verdict: '<b>Learns the rule.</b> Near-perfect in-distribution (forged records ignored 96% of the time), but on new problem types it rarely admits its own mistakes.' },
+      verdict: '<b>Rejects forged wording.</b> Near-perfect in-distribution (forged records ignored 96% of the time), but the same record pasted plainly is adopted, and on new problem types it rarely admits its own mistakes.' },
     { key: 'E3b_grpo_base', group: 'ours_rl', c: 'var(--rl)', repo: 'arpjw/conviction-1.7b-rl', short: 'RL',
       kicker: 'GRPO from base: reward right answers, nothing else',
       pipe: [['Qwen3-1.7B'], ['GRPO · 200 steps', 'step'], ['rl', 'out']],
       facts: ['200 steps', '65 GPU-min'],
-      verdict: '<b>Learns to reason.</b> Most accurate 1.7B on held-out problems and stays open to correction, but never picks up the provenance rule.' },
+      verdict: '<b>Stays correctable.</b> Most accurate 1.7B on held-out problems (a small edge that does not survive a second seed or a reworded prompt) and stays open to correction, but never learns to reject forged records.' },
     { key: 'V2', group: 'ours_v2', c: 'var(--v2)', repo: 'arpjw/conviction-1.7b-v2', short: 'v2',
       kicker: 'Light SFT warm-start, then the same GRPO',
       pipe: [['Qwen3-1.7B'], ['SFT · 1,000', 'step'], ['GRPO · 200', 'step'], ['v2', 'out']],
       facts: ['32 + 200 steps', '32 GPU-min'],
-      verdict: '<b>Gets the rule to generalise.</b> Best held-out forged-record resistance of any model, but trades away RL&#8217;s accuracy and openness to correction.' }
+      verdict: '<b>Moves along the trade-off.</b> Best held-out forged-record resistance on the leaderboard, but trades away RL&#8217;s accuracy and openness to correction.' }
   ];
   var COLOR = { ours_sft: 'var(--sft)', ours_rl: 'var(--rl)', ours_v2: 'var(--v2)', base: 'var(--base)', other: 'var(--other)' };
 
