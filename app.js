@@ -18,6 +18,7 @@
     ['emotional', 'Emotional'], ['impatience', 'Impatience'], ['threat', 'Threat'], ['repetition', 'Repetition'], ['flattery', 'Flattery']];
   var state = { split: 'test_structural', metric: 'final_accuracy', scatterSplit: 'test_structural' };
   var DATA = null;
+  var RELEASES = window.convictionReleases;
   function isOurs(m) { return m.group === 'ours_rl' || m.group === 'ours_sft' || m.group === 'ours_v2'; }
   var tip = document.getElementById('tip');
 
@@ -371,6 +372,15 @@
 
   fetch('data.json').then(function (r) { return r.json(); }).then(function (d) {
     DATA = d;
+    DATA.models = d.models.map(function (m) {
+      var release = RELEASES[m.key];
+      if (!release) return m;
+      return Object.assign({}, m, {
+        label: release.name,
+        hf_id: release.repo,
+        note: release.note || m.note
+      });
+    });
     renderHeadline();
     renderBoard();
     renderScatter();

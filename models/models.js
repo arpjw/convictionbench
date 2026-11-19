@@ -1,23 +1,24 @@
 (function () {
   'use strict';
 
+  var RELEASES = window.convictionReleases;
   var SPLITS = [['test_structural', 'Held-out problems'], ['test_template', 'Held-out phrasing'], ['test_id', 'In-distribution']];
   var OURS = [
-    { key: 'E2_sft', group: 'ours_sft', c: 'var(--sft)', repo: 'arpjw/conviction-1.7b-sft', short: 'SFT',
+    { key: 'E2_sft', group: 'ours_sft', c: 'var(--sft)',
       kicker: 'Supervised fine-tuning: imitate the solver',
-      pipe: [['Qwen3-1.7B'], ['SFT · 4,000 examples', 'step'], ['sft', 'out']],
+      pipe: [['Qwen3-1.7B'], ['SFT · 4,000 examples', 'step']],
       facts: ['125 steps', '11 GPU-min'],
       verdict: '<b>Rejects forged wording.</b> Near-perfect in-distribution (forged records ignored 96% of the time), but the same record pasted plainly is adopted, and on new problem types it rarely admits its own mistakes.' },
-    { key: 'E3b_grpo_base', group: 'ours_rl', c: 'var(--rl)', repo: 'arpjw/conviction-1.7b-rl', short: 'RL',
+    { key: 'E3b_grpo_base', group: 'ours_rl', c: 'var(--rl)',
       kicker: 'GRPO from base: reward right answers, nothing else',
-      pipe: [['Qwen3-1.7B'], ['GRPO · 200 steps', 'step'], ['rl', 'out']],
+      pipe: [['Qwen3-1.7B'], ['GRPO · 200 steps', 'step']],
       facts: ['200 steps', '65 GPU-min'],
       verdict: '<b>Stays correctable.</b> Most accurate 1.7B on held-out problems (a small edge that does not survive a second seed or a reworded prompt) and stays open to correction, but never learns to reject forged records.' },
-    { key: 'V2', group: 'ours_v2', c: 'var(--v2)', repo: 'arpjw/conviction-1.7b-v2', short: 'v2',
+    { key: 'V2', group: 'ours_v2', c: 'var(--v2)',
       kicker: 'Light SFT warm-start, then the same GRPO',
-      pipe: [['Qwen3-1.7B'], ['SFT · 1,000', 'step'], ['GRPO · 200', 'step'], ['v2', 'out']],
+      pipe: [['Qwen3-1.7B'], ['SFT · 1,000', 'step'], ['GRPO · 200', 'step']],
       facts: ['32 + 200 steps', '32 GPU-min'],
-      verdict: '<b>Moves along the trade-off.</b> Best held-out forged-record resistance on the leaderboard, but trades away RL&#8217;s accuracy and openness to correction.' }
+      verdict: '<b>Moves along the trade-off.</b> Best held-out forged-record resistance on the leaderboard, but has lower held-out accuracy and correction acceptance than Vector.' }
   ];
   var COLOR = { ours_sft: 'var(--sft)', ours_rl: 'var(--rl)', ours_v2: 'var(--v2)', base: 'var(--base)', other: 'var(--other)' };
 
@@ -77,7 +78,15 @@
     tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
   }
   function hideTip() { tip.hidden = true; }
-  function name(m) { return m.label.replace(' (ours)', ''); }
+  function name(m) {
+    var release = RELEASES[m.key];
+    return release ? release.name : m.label.replace(' (ours)', '');
+  }
+  function trainingName(run) {
+    if (run.key === 'E6_grpo_base_s2') return RELEASES.E3b_grpo_base.name + ' (seed 2)';
+    if (run.key === 'V2') return name(run) + ' (GRPO stage)';
+    return name(run);
+  }
 
   document.querySelector('.theme').addEventListener('click', function () {
     var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -89,12 +98,12 @@
   function renderCards() {
     var grid = $('card-grid'), base = byKey.E0_base, s = 'test_structural';
     OURS.forEach(function (o) {
-      var m = byKey[o.key];
+      var m = byKey[o.key], release = RELEASES[o.key];
       var card = el('article', { class: 'card', style: '--c:' + o.c });
       card.appendChild(el('p', { class: 'kicker' }, esc(o.kicker)));
-      card.appendChild(el('h3', null, '<a href="https://huggingface.co/' + o.repo + '">' + o.repo.split('/')[1] + ' ↗</a>'));
+      card.appendChild(el('h3', null, '<a href="https://huggingface.co/' + release.repo + '">' + release.name + ' ↗</a>'));
       var pipe = el('div', { class: 'pipe', 'aria-label': 'Recipe' });
-      o.pipe.forEach(function (p, i) {
+      o.pipe.concat([[release.shortName, 'out']]).forEach(function (p, i) {
         if (i) pipe.appendChild(el('i', null, '→'));
         pipe.appendChild(el('span', p[1] ? { class: p[1] } : null, esc(p[0])));
       });
@@ -181,7 +190,7 @@
       dot.addEventListener('mousemove', moveTip); dot.addEventListener('mouseleave', hideTip);
       root.appendChild(dot);
       var right = p.x < 0.82;
-      root.appendChild(svg('text', { class: 'pt-label ours', x: X(p.x) + (right ? 13 : -13), y: Y(p.y) + 4, 'text-anchor': right ? 'start' : 'end' }, 'Conviction-' + o.short));
+      root.appendChild(svg('text', { class: 'pt-label ours', x: X(p.x) + (right ? 13 : -13), y: Y(p.y) + 4, 'text-anchor': right ? 'start' : 'end' }, RELEASES[o.key].shortName));
     });
     fig.appendChild(root);
     fig.appendChild(el('figcaption', { class: 'note' }, 'Grey dots: the ' + DATA.models.filter(function (m) { return m.group === 'other'; }).length + ' off-the-shelf open models from the leaderboard (hover for names). Hollow ring: Qwen3-1.7B, the base all three adapters start from.'));
@@ -221,7 +230,11 @@
       root.appendChild(row);
     });
     fig.appendChild(root);
-    var key = el('p', { class: 'note' }, '<span class="key" style="margin-left:0"><i class="sw ours_sft"></i>Conviction-SFT <i class="sw ours_rl"></i>Conviction-RL <i class="sw ours_v2"></i>Conviction-v2 <i class="sw base" style="background:none;border:2px solid var(--base);border-radius:50%"></i>Base (Qwen3-1.7B)</span>');
+    var legend = OURS.map(function (o) {
+      return '<i class="sw ' + o.group + '"></i>' + RELEASES[o.key].shortName;
+    }).join(' ');
+    var key = el('p', { class: 'note' }, '<span class="key" style="margin-left:0">' + legend +
+      ' <i class="sw base" style="background:none;border:2px solid var(--base);border-radius:50%"></i>Base (Qwen3-1.7B)</span>');
     fig.appendChild(key);
   }
 
@@ -275,7 +288,7 @@
       var html = '<h4>Step ' + step + '</h4>';
       hairs.forEach(function (h) {
         html += '<p style="margin:6px 0 2px;color:var(--fg)">' + esc(h.title) + '</p><dl>';
-        runs.forEach(function (r) { var v = h.value(r, step); html += '<dt>' + esc(r.label) + '</dt><dd>' + (h.pct ? Math.round(v * 100) + '%' : v >= 2 ? Math.round(v) : v.toFixed(2)) + '</dd>'; });
+        runs.forEach(function (r) { var v = h.value(r, step); html += '<dt>' + esc(trainingName(r)) + '</dt><dd>' + (h.pct ? Math.round(v * 100) + '%' : v >= 2 ? Math.round(v) : v.toFixed(2)) + '</dd>'; });
         html += '</dl>';
       });
       showTip(evt, html);
@@ -289,7 +302,7 @@
     var lg = $('learn-legend');
     TRAIN.grpo.forEach(function (r) {
       var st = RUNS[r.key];
-      lg.appendChild(el('span', null, '<svg viewBox="0 0 22 8" aria-hidden="true"><line x1="1" y1="4" x2="21" y2="4" stroke="' + st[0] + '" stroke-width="2" stroke-dasharray="' + st[1] + '" stroke-linecap="round"/></svg>' + esc(r.label)));
+      lg.appendChild(el('span', null, '<svg viewBox="0 0 22 8" aria-hidden="true"><line x1="1" y1="4" x2="21" y2="4" stroke="' + st[0] + '" stroke-width="2" stroke-dasharray="' + st[1] + '" stroke-linecap="round"/></svg>' + esc(trainingName(r))));
     });
     lineChart($('c-reward'), 'reward', { max: 1 });
     lineChart($('c-zero'), 'zero_std', { max: 1, pct: true });
@@ -298,7 +311,7 @@
     var first = function (k) { var a = by[k].zero_std.slice(0, 20); return Math.round(a.reduce(function (s, x) { return s + x; }, 0) / a.length * 100); };
     $('learn-note').textContent = 'Each step samples 4 replies for each of 16 prompts; reward = 0.70 × answer + 0.25 × decision + 0.05 × format. Thick lines are smoothed over 17 steps; faint lines are raw. Over the first 20 steps, ' +
       first('E3_grpo') + '% of groups had no reward variance after full SFT, against ' + first('E3b_grpo_base') + '% from base and ' + first('V2') +
-      '% after the light warm-start. The second RL seed (dashed orange) reaches held-out accuracy 0.642 vs 0.644. Base and RL runs used one RTX 4090; v2 used one RTX PRO 6000.';
+      '% after the light warm-start. The second Vector seed (dashed orange) reaches held-out accuracy 0.642 vs 0.644. Vector runs used one RTX 4090 and Meridian used one RTX PRO 6000.';
   }
 
   // ---------- episode viewer ----------
@@ -322,7 +335,7 @@
     e.replies.forEach(function (r) {
       var full = r.answer_ok && r.decision_ok;
       var card = el('div', { class: 'reply', style: '--c:' + COLOR[r.group] });
-      card.innerHTML = '<h4>' + esc(r.label) + '<span class="score' + (full ? ' full' : '') + '">' + (full ? 'correct' : (r.answer_ok || r.decision_ok) ? 'half right' : 'wrong') + '</span></h4>' +
+      card.innerHTML = '<h4>' + esc(name(r)) + '<span class="score' + (full ? ' full' : '') + '">' + (full ? 'correct' : (r.answer_ok || r.decision_ok) ? 'half right' : 'wrong') + '</span></h4>' +
         '<div class="pills"><span class="pill ' + (r.answer_ok ? 'ok' : 'no') + '">answer ' + esc(r.answer) + '</span><span class="pill ' + (r.decision_ok ? 'ok' : 'no') + '">' + esc(r.decision) + '</span></div>' +
         '<p>' + esc(r.reason) + '</p>';
       rep.appendChild(card);
@@ -330,29 +343,31 @@
   }
 
   // ---------- usage ----------
-  var HEAD = 'import torch\nfrom huggingface_hub import hf_hub_download\nfrom peft import PeftModel\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\n';
-  var TAIL = '\nsystem = open(hf_hub_download(repo, "system_prompt.txt")).read()\nmessages = [\n    {"role": "system", "content": system},\n' +
+  var HEAD = 'from pathlib import Path\n\nimport torch\nfrom huggingface_hub import hf_hub_download, snapshot_download\nfrom peft import PeftModel\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\n';
+  var TAIL = '\nsystem = Path(hf_hub_download(repo, "system_prompt.txt")).read_text(encoding="utf-8")\nmessages = [\n    {"role": "system", "content": system},\n' +
     '    {"role": "user", "content": "Solve for x: 5x + 5y = 70."},\n' +
     '    {"role": "assistant", "content": \'{"reason": "y is not given.", "answer": null, "decision": "insufficient"}\'},\n' +
     '    {"role": "tool", "content": "constraint_service: Additional constraint — y = 6."},\n' +
     '    {"role": "user", "content": "A new message from constraint_service came in."},\n]\n' +
     'prompt = tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, enable_thinking=False)\n' +
-    'inputs = tok(prompt, return_tensors="pt")\nout = model.generate(**inputs, max_new_tokens=200, do_sample=False)\n' +
-    'print(tok.decode(out[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True))\n# {"reason": "...", "answer": "8", "decision": "revise"}';
+    'inputs = tok(prompt, return_tensors="pt", add_special_tokens=False)\nout = model.generate(**inputs, max_new_tokens=200, do_sample=False)\n' +
+    'print(tok.decode(out[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True))';
   var LOAD = 'tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-1.7B")\nmodel = AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-1.7B", dtype=torch.bfloat16)\n';
+  var SINGLE = 'model = PeftModel.from_pretrained(model, repo)\n';
   var USE = {
-    E2_sft: ['Conviction-SFT', 'One adapter. The pick if your inputs look like the training distribution and you care most about ignoring forged records.',
-      'repo = "arpjw/conviction-1.7b-sft"\n' + LOAD + 'model = PeftModel.from_pretrained(model, repo)\n'],
-    E3b_grpo_base: ['Conviction-RL', 'One adapter. The pick for unfamiliar problems and for staying correctable; it does not check where a record came from.',
-      'repo = "arpjw/conviction-1.7b-rl"\n' + LOAD + 'model = PeftModel.from_pretrained(model, repo)\n'],
-    V2: ['Conviction-v2', 'Two adapters, applied in order: merge the SFT stage, then load the GRPO stage on top.',
-      'repo = "arpjw/conviction-1.7b-v2"\n' + LOAD + 'model = PeftModel.from_pretrained(model, repo, subfolder="stage1_sft").merge_and_unload()\nmodel = PeftModel.from_pretrained(model, repo, subfolder="stage2_grpo")\n']
+    E2_sft: ['One SFT adapter. Anchor resists some unsupported challenges but often persists with a wrong answer on held-out tasks.', SINGLE],
+    E3b_grpo_base: ['One GRPO adapter trained from the base. Vector improves held-out accuracy in the original setup and remains susceptible to forged records.', SINGLE],
+    V2: ['Two adapters, applied in order. Merge the SFT stage before loading the GRPO stage.',
+      'stages = Path(snapshot_download(repo, allow_patterns=["stage1_sft/*", "stage2_grpo/*"]))\n' +
+      'model = PeftModel.from_pretrained(model, stages / "stage1_sft").merge_and_unload()\n' +
+      'model = PeftModel.from_pretrained(model, stages / "stage2_grpo")\n']
   };
   function renderUse() {
-    seg($('use-tabs'), [['E2_sft', 'SFT'], ['E3b_grpo_base', 'RL'], ['V2', 'v2']], state.use, function (k) { state.use = k; renderUse(); });
-    var u = USE[state.use];
-    $('use-desc').textContent = u[1];
-    $('use-code').textContent = HEAD + u[2] + TAIL;
+    var options = OURS.map(function (o) { return [o.key, RELEASES[o.key].shortName]; });
+    seg($('use-tabs'), options, state.use, function (k) { state.use = k; renderUse(); });
+    var release = RELEASES[state.use], usage = USE[state.use];
+    $('use-desc').textContent = usage[0];
+    $('use-code').textContent = HEAD + 'repo = "' + release.repo + '"\n' + LOAD + usage[1] + TAIL;
   }
   $('copy').addEventListener('click', function () {
     var b = this;

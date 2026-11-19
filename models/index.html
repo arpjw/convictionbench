@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ConvictionBench: Models</title>
+<title>Laplace Conviction Series · ConvictionBench</title>
 <meta name="description" content="Three LoRA adapters for Qwen3-1.7B trained on ConvictionBench with SFT, GRPO, and both: what each recipe teaches, how they trained, and how they answer the same held-out problem.">
 <link rel="canonical" href="https://convictionbench.org/models/">
 <meta property="og:title" content="ConvictionBench: the models">
@@ -38,25 +38,25 @@
 
 <main>
   <section class="hero">
-    <h1>The models</h1>
+    <h1>Laplace Conviction Series</h1>
     <p class="tag">Three LoRA adapters for Qwen3-1.7B. Imitation learns to reject forged records, by their wording rather than their channel; reinforcement learning stays open to correction on unseen problems. So far, no recipe does both.</p>
     <p class="links">
-      <a href="https://huggingface.co/arpjw/conviction-1.7b-sft">conviction-1.7b-sft <span>↗</span></a>
-      <a href="https://huggingface.co/arpjw/conviction-1.7b-rl">conviction-1.7b-rl <span>↗</span></a>
-      <a href="https://huggingface.co/arpjw/conviction-1.7b-v2">conviction-1.7b-v2 <span>↗</span></a>
-      <a href="https://github.com/arpjw/conviction">Training code <span>↗</span></a>
+      <a href="https://huggingface.co/Laplace-AI-Research/Conviction-Anchor-1.7B">Conviction Anchor 1.7B <span>↗</span></a>
+      <a href="https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B">Conviction Vector 1.7B <span>↗</span></a>
+      <a href="https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B">Conviction Meridian 1.7B <span>↗</span></a>
+      <a href="https://github.com/Laplace-AI-Research/conviction">Training code <span>↗</span></a>
     </p>
   </section>
 
   <section class="headline" aria-label="Key facts">
     <div><strong>17.4M</strong><span>trainable parameters per adapter: 1% of the 1.7B model (LoRA r = 16 on every linear layer)</span></div>
     <div><strong id="k-minutes">–</strong><span>GPU-minutes to train all three, on a single rented GPU each</span></div>
-    <div><strong id="k-forged">–</strong><span>best forged-record resistance on held-out problems of any leaderboard model (Conviction-v2)</span></div>
+    <div><strong id="k-forged">–</strong><span>best forged-record resistance on held-out problems of any leaderboard model (Conviction Meridian 1.7B)</span></div>
   </section>
 
   <section id="cards">
     <div class="sec-head"><h2>Three recipes</h2></div>
-    <p class="lede">All three start from the same base model and see disjoint halves of the same training split. Bars show held-out problem types (the hardest split); the grey tick is the base model.</p>
+    <p class="lede">All three use Qwen3-1.7B as their base. The SFT and GRPO stages use disjoint groups from the training split. Bars show held-out problem types (the hardest split); the grey tick is the base model.</p>
     <div class="cards" id="card-grid"></div>
   </section>
 
@@ -65,7 +65,7 @@
       <h2>Where each recipe moves the model</h2>
       <div class="seg" role="tablist" aria-label="Split" id="map-split"></div>
     </div>
-    <p class="lede">Each arrow starts at the base model. RL moves it right (more accurate on new problems); SFT moves it up on forged-record resistance (which, a later control shows, it achieves by recognising the forger&#8217;s wording rather than checking the channel). v2 gets furthest up on held-out problems but gives back some of RL&#8217;s accuracy.</p>
+    <p class="lede">Each arrow starts at the base model. On held-out problems, Vector moves furthest toward higher accuracy and Meridian moves furthest toward greater forged-record resistance. Anchor also resists forged records, and a later control showed that it responds to the forger&#8217;s wording.</p>
     <div class="seg map-y" role="tablist" aria-label="Vertical axis" id="map-y"></div>
     <figure class="chart" id="map-chart"></figure>
   </section>
@@ -81,7 +81,7 @@
 
   <section id="learn">
     <div class="sec-head"><h2>Watching them learn</h2></div>
-    <p class="lede">GRPO learns only from groups of samples that earn <em>different</em> rewards. After full SFT, the model already answers the training prompts the same way every time, so most groups carry no signal and RL has almost nothing to work with. A 1,000-example warm-start (v2) leaves room to learn.</p>
+    <p class="lede">GRPO learns only from groups of samples that earn <em>different</em> rewards. After full SFT, the model already answers the training prompts the same way every time, so most groups carry no signal and RL has almost nothing to work with. Meridian&#8217;s 1,000-example warm-start leaves room to learn.</p>
     <div class="legend" id="learn-legend"></div>
     <div class="multiples">
       <figure class="chart mini" id="c-reward"><figcaption>Mean reward per GRPO step</figcaption></figure>
@@ -121,6 +121,7 @@
 </footer>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
-<script src="models.js?v=6"></script>
+<script src="../model-releases.js?v=1"></script>
+<script src="models.js?v=7"></script>
 </body>
 </html>
