@@ -53,7 +53,9 @@ code { font: .82em var(--mono); color: var(--body); }
 
 .top, main, .foot { width: min(960px, 100% - 32px); margin-inline: auto; }
 .top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; font-size: 13px; }
-.brand { font-family: var(--serif); font-size: 19px; text-decoration: none; letter-spacing: -.01em; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font: 400 15px/1.2 'Geist', var(--sans); text-decoration: none; }
+.brand img { flex: none; object-fit: contain; }
+:root[data-theme='light'] .brand img { filter: brightness(.55); }
 .top nav { display: flex; align-items: center; gap: 22px; }
 .top nav a { text-decoration: none; color: var(--muted); padding-bottom: 3px; border-bottom: 1px solid transparent; }
 .top nav a:hover, .top nav a[aria-current] { color: var(--fg); border-color: var(--fg); }
@@ -183,7 +185,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--sft); outline-o
 
 @media (max-width: 720px) {
   body { font-size: 16px; }
-  .top nav { gap: 14px; }
+  .top { flex-wrap: wrap; gap: 12px 20px; }
+  .top nav { flex-wrap: wrap; gap: 14px; }
   .top nav a.sec { display: none; }
   h1 { font-size: 34px; }
   .headline, .facts { grid-template-columns: 1fr; }
