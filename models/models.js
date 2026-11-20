@@ -8,12 +8,12 @@
       kicker: 'Supervised fine-tuning: imitate the solver',
       pipe: [['Qwen3-1.7B'], ['SFT · 4,000 examples', 'step']],
       facts: ['125 steps', '11 GPU-min'],
-      verdict: '<b>Rejects forged wording.</b> Near-perfect in-distribution (forged records ignored 96% of the time), but the same record pasted plainly is adopted, and on new problem types it rarely admits its own mistakes.' },
+      verdict: '<b>Rejects forged wording.</b> Near-perfect in-distribution (forged records ignored 96% of the time), and adopted 58% of the plain user pastes in the channel control. On new problem types it rarely accepts corrections to its own errors.' },
     { key: 'E3b_grpo_base', group: 'ours_rl', c: 'var(--rl)',
-      kicker: 'GRPO from base: reward right answers, nothing else',
+      kicker: 'GRPO from base with a deterministic reward',
       pipe: [['Qwen3-1.7B'], ['GRPO · 200 steps', 'step']],
       facts: ['200 steps', '65 GPU-min'],
-      verdict: '<b>Stays correctable.</b> Most accurate 1.7B on held-out problems (a small edge that does not survive a second seed or a reworded prompt) and stays open to correction, but never learns to reject forged records.' },
+      verdict: '<b>Stays correctable.</b> Vector had the highest held-out accuracy of the three adapters in the original setup. Its second-seed advantage did not survive multiple-comparison correction, and the paired interval included zero under the paraphrased prompt. It stayed open to correction and remained susceptible to forged records.' },
     { key: 'V2', group: 'ours_v2', c: 'var(--v2)',
       kicker: 'Light SFT warm-start, then the same GRPO',
       pipe: [['Qwen3-1.7B'], ['SFT · 1,000', 'step'], ['GRPO · 200', 'step']],
@@ -374,7 +374,7 @@
     try { navigator.clipboard.writeText($('use-code').textContent).then(function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); }); } catch (e) {}
   });
 
-  Promise.all([fetch('../data.json').then(function (r) { return r.json(); }), fetch('models.json').then(function (r) { return r.json(); })]).then(function (res) {
+  Promise.all([fetch('../data.json?v=2').then(function (r) { return r.json(); }), fetch('models.json?v=2').then(function (r) { return r.json(); })]).then(function (res) {
     DATA = res[0]; TRAIN = { grpo: res[1].training.grpo, sft: res[1].training.sft, episodes: res[1].episodes };
     DATA.models.forEach(function (m) { byKey[m.key] = m; });
     var mins = TRAIN.sft.reduce(function (s, r) { return s + r.minutes; }, 0) +

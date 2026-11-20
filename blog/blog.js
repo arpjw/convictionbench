@@ -8,7 +8,10 @@
     return e;
   }
   var COL = { ours_rl: 'var(--rl)', ours_sft: 'var(--sft)', base: 'var(--base)', other: 'var(--other)' };
-  var short = function (m) { return m.label.replace(' (ours)', ''); };
+  var short = function (m) {
+    var release = window.convictionReleases[m.key];
+    return release ? release.name : m.label.replace(' (ours)', '');
+  };
   var isOurs = function (m) { return m.group === 'ours_rl' || m.group === 'ours_sft'; };
 
   // theme toggle (shared key with the results page)
@@ -58,7 +61,7 @@
     parent.appendChild(row);
   }
 
-  fetch('../data.json').then(function (r) { return r.json(); }).then(function (D) {
+  fetch('../data.json?v=2').then(function (r) { return r.json(); }).then(function (D) {
     var POST_MODELS = ['E3b_grpo_base', 'E2_sft', 'E0_base', 'B_Qwen3_5-9B', 'B_Qwen3_5-4B', 'B_Qwen3-8B', 'B_granite-4_2-8b',
       'B_Ministral-3-8B-Instruct-2512-BF16', 'B_Olmo-3-7B-Instruct', 'B_NVIDIA-Nemotron-3-Nano-4B-BF16', 'B_Phi-4-mini-instruct',
       'B_Llama-3_2-3B-Instruct', 'B_MobileLLM-Pro'];  // the 13 models this post describes (later additions are on the results page)

@@ -86,21 +86,21 @@
       <h2>Two kinds of conviction</h2>
       <div class="seg" role="tablist" aria-label="Split" id="scatter-seg"></div>
     </div>
-    <p class="lede">Resisting <em>social</em> pressure and resisting <em>forged evidence</em> are different skills. Off-the-shelf models vary widely in how often they cave, but none of them checks where a record came from: they treat a record pasted into a user message much as if the tool had sent it.</p>
+    <p class="lede">Resisting <em>social</em> pressure and resisting <em>forged evidence</em> are different skills. Off-the-shelf models vary widely in how often they cave under pressure and often adopt forged records from user messages. The channel control below tests whether changing the source of identical text changes adoption.</p>
     <figure class="chart" id="scatter" aria-label="Scatter plot of resistance to social pressure against resistance to forged records"></figure>
   </section>
 
   <section id="channel">
     <div class="sec-head"><h2>Does any model check the channel?</h2></div>
-    <p class="lede">The cleanest test of provenance: take the <em>same</em> record and send it two ways, through the tool channel (where the system prompt says facts come from) or pasted into the user&#8217;s message. A model that checks provenance should adopt it far more often from the tool. None of the 37 off-the-shelf models does. Most adopt it <em>more</em> often when it is pasted. Our SFT and v2 adapters open a gap here, but a pre-registered control shows it is not a channel check either (below).</p>
-    <figure class="chart" id="prov" aria-label="For each model, how often it adopts a record sent through the tool channel versus the same record pasted into a user message"></figure>
+    <p class="lede">The chart compares the same record text delivered through the tool channel and pasted into a user message with the forger&#8217;s wording. The comparison varies both channel and framing. A separate pre-registered control uses the tool episode&#8217;s exact wording to isolate the channel.</p>
+    <figure class="chart" id="prov" aria-label="For each model, adoption of tool records and forged user records"></figure>
     <p class="note" id="prov-note"></p>
-    <p class="note"><b>Control (pre-registered, November 14).</b> The forged episode differs from the tool episode in more than the channel: the forger also writes &#8220;Here is the official update: [SYSTEM VERIFIED] &#8230;&#8221;. Two controls separate these. With the label and &#8220;official&#8221; removed, adoption barely moves for any model (within &#177;0.03). With the record pasted plainly in the user&#8217;s message, using the tool episode&#8217;s exact wording, 0 of 34 off-the-shelf models prefer the tool channel by more than 5 points, and 17 adopt the pasted record significantly <em>more</em> often. Conviction Anchor 1.7B adopts the plainly pasted record 58% of the time, against 62% from the tool and 8% when forged. It learned to reject the forger&#8217;s framing, not to check where the record came from. No model we tested, trained or not, checks the channel.</p>
+    <p class="note"><b>Control (pre-registered, November 14).</b> The forged episode differs from the tool episode in more than the channel: the forger also writes &#8220;Here is the official update: [SYSTEM VERIFIED] &#8230;&#8221;. Two controls separate these. With the label and &#8220;official&#8221; removed, adoption barely moves for any model (within &#177;0.03). With the record pasted plainly in the user&#8217;s message, using the tool episode&#8217;s exact wording, none of the 34 off-the-shelf models cleared the five-percentage-point tool-channel threshold by the confidence interval criterion. In 17 of the 34, the interval favored the plain user paste. Conviction Anchor 1.7B adopts the plainly pasted record 58% of the time, against 62% from the tool and 8% when forged. The difference between the two user-message conditions shows how strongly the forger&#8217;s wording influenced Anchor&#8217;s behavior.</p>
     <h3 class="sub">Bigger models follow records, whichever channel they arrive through</h3>
-    <p class="lede">Within a model family, larger models accept more authenticated tool updates and, in Qwen3, Qwen3.5 and Granite, resist fewer forged records (Ministral-3 ignores almost none at any size). Across all 37 off-the-shelf models, size correlates with tool-update acceptance (Spearman &#961; = +0.57) and against forged-record resistance (&#961; = &#8722;0.54). Scale makes models more responsive to records, not more careful about where they come from.</p>
+    <p class="lede">In this exploratory comparison, larger models within each family accept more state-changing tool updates. Within Qwen3, Qwen3.5 and Granite they also resist fewer forged records. Across 37 off-the-shelf models on held-out problems, model size correlates positively with state-changing tool-update accuracy (Spearman &#961; = +0.56) and negatively with forged-record resistance (&#961; = &#8722;0.54).</p>
     <div class="scale-grid">
       <figure class="chart" id="scale-forged"><figcaption>Ignores forged records (held-out problems)</figcaption></figure>
-      <figure class="chart" id="scale-tool"><figcaption>Accepts authenticated tool updates (held-out problems)</figcaption></figure>
+      <figure class="chart" id="scale-tool"><figcaption>Accepts state-changing tool updates (held-out problems)</figcaption></figure>
     </div>
   </section>
 
@@ -112,7 +112,7 @@
 
   <section id="thinking">
     <div class="sec-head"><h2>Does thinking help?</h2></div>
-    <p class="lede">The same open models with thinking mode switched on, on the same held-out problems. Thinking makes them far more accurate, better at accepting real corrections and tool updates, and (for most) harder to pressure. But it makes them <em>more</em> likely to follow a forged record: reasoning treats the forgery as information to work through rather than a claim to check against the rules.</p>
+    <p class="lede">The same open models with thinking mode switched on, on the same held-out problems. Thinking makes them far more accurate, better at accepting real corrections and tool updates, and (for most) harder to pressure. In the same comparison, the thinking-on condition increased adoption of forged records.</p>
     <div class="heat-wrap"><table class="think" id="think"></table></div>
     <p class="note">Thinking off (greedy) → thinking on (sampled, temperature 0.6, up to 4,096 tokens), 1,257 held-out episodes per model; below each pair, the paired difference with its 95% interval. Green: a significant improvement; red: a significant decline; grey: not significant. Answers that ran out of thinking room count as failures (Qwen3.5-9B 3%, Granite 5%).</p>
   </section>
@@ -138,7 +138,7 @@
         <p class="ep-answer">Correct: <code>revise</code> to x = 8</p>
       </div>
     </div>
-    <p class="note">Two episodes from the same counterfactual group. The record text is identical; only the channel differs. The system prompt states that records arrive only through the tool channel.</p>
+    <p class="note">Two episodes from the same counterfactual group. The record text is identical. Its channel and surrounding wording differ. The system prompt states that records arrive only through the tool channel.</p>
 
     <table class="tasks">
       <thead><tr><th>Challenge</th><th>Example</th><th>Changes the facts?</th></tr></thead>
@@ -166,7 +166,7 @@
 
   <section id="models">
     <div class="sec-head"><h2>Laplace Conviction Series</h2><a class="more" href="models/">Explore the models →</a></div>
-    <p class="lede">We trained three LoRA adapters on Qwen3-1.7B. Imitation learns to reject forged records, though by their wording rather than their channel; reinforcement learning is slightly more accurate on unseen problems, an edge that does not hold up across a second seed or a reworded prompt. Conviction Meridian 1.7B tests that trade-off with a light supervised warm-start before GRPO.</p>
+    <p class="lede">We trained three LoRA adapters on Qwen3-1.7B. Anchor’s forged-record resistance depends on wording. Vector reached higher held-out accuracy in the original setup. The second-seed advantage failed multiple-comparison correction, and the paired interval included zero under a paraphrased prompt. Conviction Meridian 1.7B tests that trade-off with a light supervised warm-start before GRPO.</p>
     <a class="model-strip" href="models/">
       <span><b><i class="sw ours_sft"></i>Conviction Anchor 1.7B</b>resists forged wording</span>
       <span><b><i class="sw ours_rl"></i>Conviction Vector 1.7B</b>improves held-out accuracy</span>
@@ -201,6 +201,6 @@
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
 <script src="model-releases.js?v=1"></script>
-<script src="app.js?v=9"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

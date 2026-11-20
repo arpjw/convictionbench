@@ -44,7 +44,7 @@ sup.cite a { text-decoration: none; color: var(--sft); }
 .post .fig-sub { margin: 0 0 14px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .hb { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 10px; padding: 3px 0; font-size: 13px; }
 .hb .lab { color: var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hb .lab.ours { color: var(--fg); font-weight: 500; }
+.hb .lab.ours { color: var(--fg); font-weight: 500; white-space: normal; }
 .hb .trk { position: relative; height: 14px; }
 .hb .fill { position: absolute; left: 0; top: 1px; height: 12px; border-radius: 0 4px 4px 0; }
 .hb .v { position: absolute; top: -2px; font: 12px var(--mono); color: var(--fg); white-space: nowrap; }

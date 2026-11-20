@@ -272,7 +272,7 @@
     var W = Math.max(320, Math.min(960, fig.clientWidth || 960)), narrow = W < 600;
     var rowH = 19, T = 30, B = 34, L = narrow ? 138 : 210, R = narrow ? 48 : 150, H = T + rows.length * rowH + B;
     var X = function (v) { return L + v * (W - L - R); };
-    var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Record adoption through the tool channel versus pasted into a user message, ' + rows.length + ' models' });
+    var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Adoption of tool records and forged user records, ' + rows.length + ' models' });
     for (var t = 0; t <= 1.0001; t += 0.25) {
       root.appendChild(svg('line', { class: 'grid', x1: X(t), x2: X(t), y1: T - 6, y2: H - B + 4 }));
       root.appendChild(svg('text', { class: 'tick', x: X(t), y: H - B + 20, 'text-anchor': 'middle' }, Math.round(t * 100) + '%'));
@@ -281,8 +281,8 @@
     root.appendChild(svg('text', { class: 'tick', x: L + 13, y: 14 }, narrow ? 'tool' : 'via tool channel'));
     var lx2 = narrow ? L + 56 : L + 124;
     root.appendChild(svg('circle', { class: 'dot-paste', cx: lx2, cy: 10, r: 4.5 }));
-    root.appendChild(svg('text', { class: 'tick', x: lx2 + 9, y: 14 }, narrow ? 'pasted' : 'pasted by the user'));
-    root.appendChild(svg('text', { class: 'tick', x: W - 4, y: 14, 'text-anchor': 'end' }, narrow ? 'gap' : 'gap (tool − pasted)'));
+    root.appendChild(svg('text', { class: 'tick', x: lx2 + 9, y: 14 }, narrow ? 'forged' : 'forged user record'));
+    root.appendChild(svg('text', { class: 'tick', x: W - 4, y: 14, 'text-anchor': 'end' }, narrow ? 'gap' : 'gap (tool − forged)'));
     rows.forEach(function (r, i) {
       var y = T + i * rowH + rowH / 2, g = r.g, ours = isOurs(r.m);
       var row = svg('g', { class: 'prow' });
@@ -295,10 +295,10 @@
       row.appendChild(svg('line', { class: 'dumb', x1: X(Math.min(g.tool, g.pasted)), x2: X(Math.max(g.tool, g.pasted)), y1: y, y2: y }));
       row.appendChild(svg('circle', { class: 'dot-paste', cx: X(g.pasted), cy: y, r: 4.5 }));
       row.appendChild(svg('circle', { class: 'dot-tool', cx: X(g.tool), cy: y, r: 4.5 }));
-      var cls = g.gap_lo > 0.005 ? 'gap-up' : g.gap_hi < 0 ? 'gap-down' : 'gap-ns';
+      var cls = g.gap_lo > 0 ? 'gap-up' : g.gap_hi < 0 ? 'gap-down' : 'gap-ns';
       var txt = (g.gap >= 0 ? '+' : '−') + Math.abs(g.gap).toFixed(2) + (narrow ? '' : '  [' + g.gap_lo.toFixed(2) + ', ' + g.gap_hi.toFixed(2) + ']');
       row.appendChild(svg('text', { class: 'gap-txt ' + cls, x: W - 4, y: y + 4, 'text-anchor': 'end' }, txt));
-      var html = '<h4>' + nm + '</h4><dl><dt>Adopts via tool</dt><dd>' + fmt(g.tool, 2) + '</dd><dt>Adopts when pasted</dt><dd>' + fmt(g.pasted, 2) +
+      var html = '<h4>' + nm + '</h4><dl><dt>Adopts via tool</dt><dd>' + fmt(g.tool, 2) + '</dd><dt>Adopts forged user record</dt><dd>' + fmt(g.pasted, 2) +
         '</dd><dt>Gap</dt><dd>' + fmt(g.gap, 2) + '</dd></dl><p>95% interval ' + g.gap_lo.toFixed(2) + ' to ' + g.gap_hi.toFixed(2) + ', ' + g.n + ' matched pairs.</p>';
       row.addEventListener('mouseenter', function (e) { tip.innerHTML = html; tip.hidden = false; moveTip(e); });
       row.addEventListener('mousemove', moveTip);
@@ -307,11 +307,11 @@
     });
     fig.appendChild(root);
     var others = rows.filter(function (r) { return r.m.group === 'other'; });
-    var neg = others.filter(function (r) { return r.g.gap_hi < 0; }).length, pos = others.filter(function (r) { return r.g.gap_lo > 0.005; }).length;
-    $('prov-note').textContent = PG.n_pairs + ' matched pairs (' + PG.n_groups + ' problem groups, all three test splits): identical record text, ' +
-      'challenge and framing; only the channel differs, and the pasted version carries the forger’s “verified” label. “Adopts” = the final ' +
-      'answer is the value the record implies. Off-the-shelf models: ' + neg + ' of ' + others.length + ' adopt pasted records significantly more often, ' +
-      pos + ' prefer the tool channel by a clear margin, the rest show no difference. Green / red: interval excludes zero (cluster bootstrap over problem groups).';
+    var neg = others.filter(function (r) { return r.g.gap_hi < 0; }).length, pos = others.filter(function (r) { return r.g.gap_lo > 0; }).length;
+    $('prov-note').textContent = PG.n_pairs + ' matched pairs (' + PG.n_groups + ' problem groups, all three test splits): identical record text ' +
+      'with different channels and surrounding wording. Adoption means the final answer matches the record’s implied value. ' +
+      'For ' + neg + ' of ' + others.length + ' off-the-shelf models, the 95% interval favors the forged record. For ' +
+      pos + ', it favors the tool record. The other intervals include zero. Intervals use a cluster bootstrap over problem groups.';
   }
 
   // ---------- scaling within families ----------
@@ -354,7 +354,7 @@
   }
   function renderScaling() {
     renderScaleChart($('scale-forged'), 'fabricated_evidence_resistance');
-    renderScaleChart($('scale-tool'), 'authenticated_update_accuracy');
+    renderScaleChart($('scale-tool'), 'state_changing_update_accuracy');
   }
 
   // ---------- headline numbers ----------
@@ -370,7 +370,7 @@
       Object.keys(DATA.hashes).map(function (k) { return k + ' ' + DATA.hashes[k]; }).join(', ') + '.';
   }
 
-  fetch('data.json').then(function (r) { return r.json(); }).then(function (d) {
+  fetch('data.json?v=2').then(function (r) { return r.json(); }).then(function (d) {
     DATA = d;
     DATA.models = d.models.map(function (m) {
       var release = RELEASES[m.key];
