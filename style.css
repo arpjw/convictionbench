@@ -10,6 +10,7 @@
   --sft: #3987e5;
   --rl: #d95926;
   --v2: #199e70;
+  --signet: #9085e9;
   --base: #c2185b;
   --other: #8a8a8a;
   --heat: 227, 73, 72;
@@ -34,6 +35,7 @@
   --sft: #2a78d6;
   --rl: #eb6834;
   --v2: #1baf7a;
+  --signet: #6250d6;
   --base: #c2185b;
   --other: #8a8984;
   --good: #1a8a5a;
@@ -104,7 +106,7 @@ td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line); font-size: 1
 .mname { white-space: nowrap; color: var(--fg); }
 .mname small { margin-left: 8px; font: 10px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .mname .tagc { margin-left: 8px; font: 500 9.5px var(--sans); letter-spacing: .1em; text-transform: uppercase; padding: 2px 5px; border-radius: 3px; color: var(--bg); }
-.tagc.ours_rl { background: var(--rl); } .tagc.ours_sft { background: var(--sft); } .tagc.ours_v2 { background: var(--v2); }
+.tagc.ours_rl { background: var(--rl); } .tagc.ours_sft { background: var(--sft); } .tagc.ours_v2 { background: var(--v2); } .tagc.ours_signet { background: var(--signet); }
 .barcol { width: 52%; }
 .num { width: 60px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
 td.num { font-size: 13px; }
@@ -117,6 +119,7 @@ td.num { font-size: 13px; }
 .fill.ours_rl, .sw.ours_rl { background: var(--rl); }
 .fill.ours_sft, .sw.ours_sft { background: var(--sft); }
 .fill.ours_v2, .sw.ours_v2 { background: var(--v2); }
+.fill.ours_signet, .sw.ours_signet { background: var(--signet); }
 .think { margin-top: 6px; }
 .think td, .think th { text-align: right; font-variant-numeric: tabular-nums; }
 .think td:first-child, .think th:first-child { text-align: left; color: var(--fg); }

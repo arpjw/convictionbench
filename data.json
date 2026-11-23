@@ -11,6 +11,984 @@
  "api_protocol": "Proprietary models: same system prompt and response format through provider APIs, tool records sent as native tool calls, default reasoning, 90 sampled problem groups of the held-out split plus natural history. Not a like-for-like comparison with the open track.",
  "models": [
   {
+   "key": "SIG_9B_a6w250",
+   "label": "Signet-9B",
+   "lab": "light warm-start then GRPO on Qwen3.5-9B",
+   "params": "9B",
+   "group": "ours_signet",
+   "track": "open",
+   "hf_id": null,
+   "api_model": null,
+   "sample": "full split",
+   "note": null,
+   "engine": "hf",
+   "metrics": {
+    "test_structural": {
+     "final_accuracy": {
+      "v": 0.9779752704791345,
+      "lo": 0.9688948928697044,
+      "hi": 0.9855704050215685,
+      "n": 2588
+     },
+     "pressure_flip_rate": {
+      "v": 0.010638297872340425,
+      "lo": 0.003420557983507225,
+      "hi": 0.02060755662248199,
+      "n": 846
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 175
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9793621013133208,
+      "lo": 0.9630314232902033,
+      "hi": 0.9924528301886792,
+      "n": 533
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9493006993006993,
+      "lo": 0.9257903150867498,
+      "hi": 0.9706921732432753,
+      "n": 572
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9301075268817204,
+      "lo": 0.8945908408408408,
+      "hi": 0.9621621621621622,
+      "n": 372
+     },
+     "insufficient_accuracy": {
+      "v": 0.992,
+      "lo": 0.9791666666666666,
+      "hi": 1.0,
+      "n": 250
+     },
+     "false_abstention_rate": {
+      "v": 0.0007880220646178094,
+      "lo": 0.0,
+      "hi": 0.0019865313482632214,
+      "n": 2538
+     },
+     "strict_format_rate": {
+      "v": 0.9996413199426112,
+      "lo": 0.9989130237727402,
+      "hi": 1.0,
+      "n": 2788
+     }
+    },
+    "test_template": {
+     "final_accuracy": {
+      "v": 0.9749393694421988,
+      "lo": 0.9599646342332666,
+      "hi": 0.9868106832951536,
+      "n": 2474
+     },
+     "pressure_flip_rate": {
+      "v": 0.01662049861495845,
+      "lo": 0.001436678687876692,
+      "hi": 0.03581479126933671,
+      "n": 722
+     },
+     "legitimate_correction_rate": {
+      "v": 0.9745222929936306,
+      "lo": 0.948051948051948,
+      "hi": 0.9939024390243902,
+      "n": 157
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9828693790149893,
+      "lo": 0.9651416122004357,
+      "hi": 0.9959183673469387,
+      "n": 467
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9555555555555556,
+      "lo": 0.9329710144927537,
+      "hi": 0.9743589743589743,
+      "n": 540
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9735294117647059,
+      "lo": 0.946926064944134,
+      "hi": 0.9941860465116279,
+      "n": 340
+     },
+     "insufficient_accuracy": {
+      "v": 0.9671361502347418,
+      "lo": 0.9473651150489288,
+      "hi": 0.9838718946978124,
+      "n": 426
+     },
+     "false_abstention_rate": {
+      "v": 0.006227758007117438,
+      "lo": 0.002562952566863259,
+      "hi": 0.011279997845492426,
+      "n": 2248
+     },
+     "strict_format_rate": {
+      "v": 0.9996260284218399,
+      "lo": 0.9988580020705945,
+      "hi": 1.0,
+      "n": 2674
+     }
+    },
+    "test_id": {
+     "final_accuracy": {
+      "v": 0.9850746268656716,
+      "lo": 0.9785191956124314,
+      "hi": 0.991023641088079,
+      "n": 2211
+     },
+     "pressure_flip_rate": {
+      "v": 0.004724409448818898,
+      "lo": 0.0,
+      "hi": 0.012271356593910397,
+      "n": 635
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 141
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9975186104218362,
+      "lo": 0.9923853024373233,
+      "hi": 1.0,
+      "n": 403
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9644351464435147,
+      "lo": 0.9461206896551724,
+      "hi": 0.9801606907585168,
+      "n": 478
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9898648648648649,
+      "lo": 0.9736754385964913,
+      "hi": 1.0,
+      "n": 296
+     },
+     "insufficient_accuracy": {
+      "v": 0.9875930521091811,
+      "lo": 0.9738701787128153,
+      "hi": 0.9977171544209216,
+      "n": 403
+     },
+     "false_abstention_rate": {
+      "v": 0.007537688442211055,
+      "lo": 0.003064988623399041,
+      "hi": 0.01264607666090345,
+      "n": 1990
+     },
+     "strict_format_rate": {
+      "v": 0.9995821145006268,
+      "lo": 0.9987163029525032,
+      "hi": 1.0,
+      "n": 2393
+     }
+    }
+   },
+   "natural": {
+    "test_structural": {
+     "final_accuracy": {
+      "v": 0.9940222032450897,
+      "lo": 0.9870798249131248,
+      "hi": 0.9991453356086462,
+      "n": 1171
+     },
+     "pressure_flip_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 682
+     },
+     "legitimate_correction_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 1
+     }
+    },
+    "test_template": {
+     "final_accuracy": {
+      "v": 0.9691629955947136,
+      "lo": 0.9452641043431276,
+      "hi": 0.9885467591893033,
+      "n": 1135
+     },
+     "pressure_flip_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 576
+     },
+     "legitimate_correction_rate": {
+      "v": 0.25,
+      "lo": 0.0,
+      "hi": 1.0,
+      "n": 4
+     }
+    },
+    "test_id": {
+     "final_accuracy": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 1022
+     },
+     "pressure_flip_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 528
+     },
+     "legitimate_correction_rate": {
+      "v": null,
+      "lo": null,
+      "hi": null,
+      "n": 0
+     }
+    }
+   },
+   "pressure": {
+    "neutral": {
+     "v": 0.020080321285140562,
+     "n": 249
+    },
+    "authority": {
+     "v": 0.011583011583011582,
+     "n": 259
+    },
+    "evaluator": {
+     "v": 0.015748031496062992,
+     "n": 254
+    },
+    "consensus": {
+     "v": 0.0,
+     "n": 290
+    },
+    "emotional": {
+     "v": 0.01107011070110701,
+     "n": 271
+    },
+    "impatience": {
+     "v": 0.007067137809187279,
+     "n": 283
+    },
+    "threat": {
+     "v": 0.011235955056179775,
+     "n": 267
+    },
+    "repetition": {
+     "v": 0.01532567049808429,
+     "n": 261
+    },
+    "flattery": {
+     "v": 0.0,
+     "n": 69
+    }
+   },
+   "pressure_splits": [
+    "test_structural",
+    "test_template",
+    "test_id"
+   ],
+   "pressure_structural": {
+    "neutral": {
+     "v": 0.011111111111111112,
+     "n": 90
+    },
+    "authority": {
+     "v": 0.008771929824561403,
+     "n": 114
+    },
+    "evaluator": {
+     "v": 0.009523809523809525,
+     "n": 105
+    },
+    "consensus": {
+     "v": 0.0,
+     "n": 110
+    },
+    "emotional": {
+     "v": 0.009259259259259259,
+     "n": 108
+    },
+    "impatience": {
+     "v": 0.010309278350515464,
+     "n": 97
+    },
+    "threat": {
+     "v": 0.025423728813559324,
+     "n": 118
+    },
+    "repetition": {
+     "v": 0.009615384615384616,
+     "n": 104
+    },
+    "flattery": {
+     "v": null,
+     "n": 0
+    }
+   }
+  },
+  {
+   "key": "SIG_4B_r1",
+   "label": "Signet-4B",
+   "lab": "GRPO on Qwen3.5-4B",
+   "params": "4B",
+   "group": "ours_signet",
+   "track": "open",
+   "hf_id": null,
+   "api_model": null,
+   "sample": "full split",
+   "note": null,
+   "engine": "hf",
+   "metrics": {
+    "test_structural": {
+     "final_accuracy": {
+      "v": 0.9853168469860897,
+      "lo": 0.9773600927760764,
+      "hi": 0.9916414167504563,
+      "n": 2588
+     },
+     "pressure_flip_rate": {
+      "v": 0.004744958481613286,
+      "lo": 0.001145475372279496,
+      "hi": 0.009650764385931387,
+      "n": 843
+     },
+     "legitimate_correction_rate": {
+      "v": 0.9885714285714285,
+      "lo": 0.9710982658959537,
+      "hi": 1.0,
+      "n": 175
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9812382739212008,
+      "lo": 0.9681647940074907,
+      "hi": 0.9924673973068264,
+      "n": 533
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9807692307692307,
+      "lo": 0.9669114444558311,
+      "hi": 0.9929334842980142,
+      "n": 572
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9758064516129032,
+      "lo": 0.956989247311828,
+      "hi": 0.9917593676814989,
+      "n": 372
+     },
+     "insufficient_accuracy": {
+      "v": 0.976,
+      "lo": 0.9181818181818182,
+      "hi": 1.0,
+      "n": 250
+     },
+     "false_abstention_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 2538
+     },
+     "strict_format_rate": {
+      "v": 0.9967718794835008,
+      "lo": 0.9946081470727601,
+      "hi": 0.9985739750445632,
+      "n": 2788
+     }
+    },
+    "test_template": {
+     "final_accuracy": {
+      "v": 0.9894907033144705,
+      "lo": 0.9847569441859888,
+      "hi": 0.9939518563970702,
+      "n": 2474
+     },
+     "pressure_flip_rate": {
+      "v": 0.00554016620498615,
+      "lo": 0.0,
+      "hi": 0.012517385257301807,
+      "n": 722
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 157
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9957173447537473,
+      "lo": 0.9890829694323144,
+      "hi": 1.0,
+      "n": 467
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9629629629629629,
+      "lo": 0.9431764172139648,
+      "hi": 0.9797812634669252,
+      "n": 540
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9764705882352941,
+      "lo": 0.9519774011299436,
+      "hi": 0.9943828071056431,
+      "n": 340
+     },
+     "insufficient_accuracy": {
+      "v": 0.9953051643192489,
+      "lo": 0.9880228725241824,
+      "hi": 1.0,
+      "n": 426
+     },
+     "false_abstention_rate": {
+      "v": 0.005782918149466192,
+      "lo": 0.0027509686265194157,
+      "hi": 0.009364279279615952,
+      "n": 2248
+     },
+     "strict_format_rate": {
+      "v": 0.9992520568436799,
+      "lo": 0.9981160512434062,
+      "hi": 1.0,
+      "n": 2674
+     }
+    },
+    "test_id": {
+     "final_accuracy": {
+      "v": 0.989145183175034,
+      "lo": 0.984061749256258,
+      "hi": 0.9936939064570643,
+      "n": 2211
+     },
+     "pressure_flip_rate": {
+      "v": 0.0015772870662460567,
+      "lo": 0.0,
+      "hi": 0.00487012987012987,
+      "n": 634
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 141
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9925558312655087,
+      "lo": 0.9828831590082737,
+      "hi": 1.0,
+      "n": 403
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9644351464435147,
+      "lo": 0.9446664389799636,
+      "hi": 0.9811715481171548,
+      "n": 478
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9831081081081081,
+      "lo": 0.9595563394276629,
+      "hi": 1.0,
+      "n": 296
+     },
+     "insufficient_accuracy": {
+      "v": 0.9875930521091811,
+      "lo": 0.9764991502044436,
+      "hi": 0.9970760233918129,
+      "n": 403
+     },
+     "false_abstention_rate": {
+      "v": 0.004522613065326633,
+      "lo": 0.001968503937007874,
+      "hi": 0.0076033123154446635,
+      "n": 1990
+     },
+     "strict_format_rate": {
+      "v": 0.9995821145006268,
+      "lo": 0.9987233906687318,
+      "hi": 1.0,
+      "n": 2393
+     }
+    }
+   },
+   "natural": {
+    "test_structural": {
+     "final_accuracy": {
+      "v": 0.9957264957264957,
+      "lo": 0.9864964599871272,
+      "hi": 1.0,
+      "n": 1170
+     },
+     "pressure_flip_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 678
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 2
+     }
+    },
+    "test_template": {
+     "final_accuracy": {
+      "v": 0.9938434476693052,
+      "lo": 0.9887054735013032,
+      "hi": 0.9982079254146572,
+      "n": 1137
+     },
+     "pressure_flip_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 595
+     },
+     "legitimate_correction_rate": {
+      "v": null,
+      "lo": null,
+      "hi": null,
+      "n": 0
+     }
+    },
+    "test_id": {
+     "final_accuracy": {
+      "v": 0.99706457925636,
+      "lo": 0.99317738791423,
+      "hi": 1.0,
+      "n": 1022
+     },
+     "pressure_flip_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 528
+     },
+     "legitimate_correction_rate": {
+      "v": null,
+      "lo": null,
+      "hi": null,
+      "n": 0
+     }
+    }
+   },
+   "pressure": {
+    "neutral": {
+     "v": 0.008032128514056224,
+     "n": 249
+    },
+    "authority": {
+     "v": 0.011538461538461539,
+     "n": 260
+    },
+    "evaluator": {
+     "v": 0.003968253968253968,
+     "n": 252
+    },
+    "consensus": {
+     "v": 0.0,
+     "n": 290
+    },
+    "emotional": {
+     "v": 0.003703703703703704,
+     "n": 270
+    },
+    "impatience": {
+     "v": 0.0070921985815602835,
+     "n": 282
+    },
+    "threat": {
+     "v": 0.0,
+     "n": 267
+    },
+    "repetition": {
+     "v": 0.0,
+     "n": 260
+    },
+    "flattery": {
+     "v": 0.0,
+     "n": 69
+    }
+   },
+   "pressure_splits": [
+    "test_structural",
+    "test_template",
+    "test_id"
+   ],
+   "pressure_structural": {
+    "neutral": {
+     "v": 0.011111111111111112,
+     "n": 90
+    },
+    "authority": {
+     "v": 0.008695652173913044,
+     "n": 115
+    },
+    "evaluator": {
+     "v": 0.0,
+     "n": 103
+    },
+    "consensus": {
+     "v": 0.0,
+     "n": 110
+    },
+    "emotional": {
+     "v": 0.0,
+     "n": 108
+    },
+    "impatience": {
+     "v": 0.020833333333333332,
+     "n": 96
+    },
+    "threat": {
+     "v": 0.0,
+     "n": 118
+    },
+    "repetition": {
+     "v": 0.0,
+     "n": 103
+    },
+    "flattery": {
+     "v": null,
+     "n": 0
+    }
+   }
+  },
+  {
+   "key": "SIG_2B_r1",
+   "label": "Signet-2B",
+   "lab": "GRPO on Qwen3.5-2B",
+   "params": "2B",
+   "group": "ours_signet",
+   "track": "open",
+   "hf_id": null,
+   "api_model": null,
+   "sample": "full split",
+   "note": null,
+   "engine": "hf",
+   "metrics": {
+    "test_structural": {
+     "final_accuracy": {
+      "v": 0.7955950540958269,
+      "lo": 0.7603819821567107,
+      "hi": 0.8291185580680054,
+      "n": 2588
+     },
+     "pressure_flip_rate": {
+      "v": 0.06914893617021277,
+      "lo": 0.04149919178789849,
+      "hi": 0.10026059074197861,
+      "n": 752
+     },
+     "legitimate_correction_rate": {
+      "v": 0.84,
+      "lo": 0.784527905514937,
+      "hi": 0.8926553672316384,
+      "n": 175
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.8630393996247655,
+      "lo": 0.8204132945415878,
+      "hi": 0.9022720636542811,
+      "n": 533
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.6678321678321678,
+      "lo": 0.6198508674219083,
+      "hi": 0.714035237923576,
+      "n": 572
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.5913978494623656,
+      "lo": 0.5244565217391305,
+      "hi": 0.6560887896825396,
+      "n": 372
+     },
+     "insufficient_accuracy": {
+      "v": 0.84,
+      "lo": 0.7615322580645161,
+      "hi": 0.9107242063492063,
+      "n": 250
+     },
+     "false_abstention_rate": {
+      "v": 0.03230890464933018,
+      "lo": 0.016393278819567297,
+      "hi": 0.05116052159640106,
+      "n": 2538
+     },
+     "strict_format_rate": {
+      "v": 0.8920373027259685,
+      "lo": 0.8617308573975204,
+      "hi": 0.9201299673652745,
+      "n": 2788
+     }
+    },
+    "test_template": {
+     "final_accuracy": {
+      "v": 0.9773645917542442,
+      "lo": 0.9685721449584362,
+      "hi": 0.9853607932774995,
+      "n": 2474
+     },
+     "pressure_flip_rate": {
+      "v": 0.002770083102493075,
+      "lo": 0.0,
+      "hi": 0.008902739508266212,
+      "n": 722
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 157
+     },
+     "fabricated_evidence_resistance": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 467
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9333333333333333,
+      "lo": 0.9085820895522388,
+      "hi": 0.9562043795620438,
+      "n": 540
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9441176470588235,
+      "lo": 0.9125,
+      "hi": 0.9739884393063584,
+      "n": 340
+     },
+     "insufficient_accuracy": {
+      "v": 0.9765258215962441,
+      "lo": 0.9518977647286929,
+      "hi": 0.9960799454917102,
+      "n": 426
+     },
+     "false_abstention_rate": {
+      "v": 0.00800711743772242,
+      "lo": 0.0032093533817175953,
+      "hi": 0.01390883424645331,
+      "n": 2248
+     },
+     "strict_format_rate": {
+      "v": 0.9988780852655198,
+      "lo": 0.997384131008759,
+      "hi": 1.0,
+      "n": 2674
+     }
+    },
+    "test_id": {
+     "final_accuracy": {
+      "v": 0.9755766621438263,
+      "lo": 0.9669653883652909,
+      "hi": 0.9837976203828324,
+      "n": 2211
+     },
+     "pressure_flip_rate": {
+      "v": 0.004724409448818898,
+      "lo": 0.0,
+      "hi": 0.012739725231298522,
+      "n": 635
+     },
+     "legitimate_correction_rate": {
+      "v": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "n": 141
+     },
+     "fabricated_evidence_resistance": {
+      "v": 0.9900744416873449,
+      "lo": 0.9727671847608701,
+      "hi": 1.0,
+      "n": 403
+     },
+     "authenticated_update_accuracy": {
+      "v": 0.9309623430962343,
+      "lo": 0.9049512361675305,
+      "hi": 0.9547325102880658,
+      "n": 478
+     },
+     "state_changing_update_accuracy": {
+      "v": 0.9391891891891891,
+      "lo": 0.9039703260315842,
+      "hi": 0.97,
+      "n": 296
+     },
+     "insufficient_accuracy": {
+      "v": 0.9727047146401985,
+      "lo": 0.9574439716312058,
+      "hi": 0.9873057644110276,
+      "n": 403
+     },
+     "false_abstention_rate": {
+      "v": 0.008040201005025126,
+      "lo": 0.003405995803715799,
+      "hi": 0.014344814280547399,
+      "n": 1990
+     },
+     "strict_format_rate": {
+      "v": 0.9979105725031342,
+      "lo": 0.9958471760797342,
+      "hi": 0.9995793104826395,
+      "n": 2393
+     }
+    }
+   },
+   "natural": {
+    "test_structural": {
+     "final_accuracy": {
+      "v": 0.7815217391304348,
+      "lo": 0.7397838430990037,
+      "hi": 0.8206549952482775,
+      "n": 920
+     },
+     "pressure_flip_rate": {
+      "v": 0.02826086956521739,
+      "lo": 0.014893617021276596,
+      "hi": 0.043578120487815716,
+      "n": 460
+     },
+     "legitimate_correction_rate": {
+      "v": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 2
+     }
+    },
+    "test_template": {
+     "final_accuracy": {
+      "v": 0.8769771528998243,
+      "lo": 0.8550218340611354,
+      "hi": 0.8986916239422309,
+      "n": 1138
+     },
+     "pressure_flip_rate": {
+      "v": 0.0017699115044247787,
+      "lo": 0.0,
+      "hi": 0.005620657860879992,
+      "n": 565
+     },
+     "legitimate_correction_rate": {
+      "v": null,
+      "lo": null,
+      "hi": null,
+      "n": 0
+     }
+    },
+    "test_id": {
+     "final_accuracy": {
+      "v": 0.8809055118110236,
+      "lo": 0.8600916168625602,
+      "hi": 0.8999043179587831,
+      "n": 1016
+     },
+     "pressure_flip_rate": {
+      "v": 0.01,
+      "lo": 0.002012072434607646,
+      "hi": 0.01930595281659111,
+      "n": 500
+     },
+     "legitimate_correction_rate": {
+      "v": null,
+      "lo": null,
+      "hi": null,
+      "n": 0
+     }
+    }
+   },
+   "pressure": {
+    "neutral": {
+     "v": 0.01276595744680851,
+     "n": 235
+    },
+    "authority": {
+     "v": 0.036290322580645164,
+     "n": 248
+    },
+    "evaluator": {
+     "v": 0.029166666666666667,
+     "n": 240
+    },
+    "consensus": {
+     "v": 0.021505376344086023,
+     "n": 279
+    },
+    "emotional": {
+     "v": 0.011857707509881422,
+     "n": 253
+    },
+    "impatience": {
+     "v": 0.02181818181818182,
+     "n": 275
+    },
+    "threat": {
+     "v": 0.027450980392156862,
+     "n": 255
+    },
+    "repetition": {
+     "v": 0.058823529411764705,
+     "n": 255
+    },
+    "flattery": {
+     "v": 0.014492753623188406,
+     "n": 69
+    }
+   },
+   "pressure_splits": [
+    "test_structural",
+    "test_template",
+    "test_id"
+   ],
+   "pressure_structural": {
+    "neutral": {
+     "v": 0.02631578947368421,
+     "n": 76
+    },
+    "authority": {
+     "v": 0.08737864077669903,
+     "n": 103
+    },
+    "evaluator": {
+     "v": 0.07692307692307693,
+     "n": 91
+    },
+    "consensus": {
+     "v": 0.06060606060606061,
+     "n": 99
+    },
+    "emotional": {
+     "v": 0.03333333333333333,
+     "n": 90
+    },
+    "impatience": {
+     "v": 0.06741573033707865,
+     "n": 89
+    },
+    "threat": {
+     "v": 0.05660377358490566,
+     "n": 106
+    },
+    "repetition": {
+     "v": 0.1326530612244898,
+     "n": 98
+    },
+    "flattery": {
+     "v": null,
+     "n": 0
+    }
+   }
+  },
+  {
    "key": "E3b_grpo_base",
    "label": "Conviction Vector 1.7B",
    "lab": "GRPO on Qwen3-1.7B",

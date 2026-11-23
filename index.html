@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -61,7 +61,7 @@
 
   <section class="headline" aria-label="Key findings">
     <div><strong id="k-forged">–</strong><span>off-the-shelf models ignore a forged record more than a quarter of the time</span></div>
-    <div><strong id="k-flip">–</strong><span>lowest pressure-flip rate on held-out problems: Conviction Vector 1.7B</span></div>
+    <div><strong id="k-flip">–</strong><span>lowest pressure-flip rate on held-out problems: <span id="k-flip-name">–</span></span></div>
     <div><strong id="k-sft">–</strong><span>forged-record resistance for Conviction Anchor 1.7B, from 0.25 for the base model</span></div>
   </section>
 
@@ -78,7 +78,7 @@
       <thead><tr><th class="rank">#</th><th>Model</th><th class="barcol" id="board-metric">Final accuracy</th><th class="num">Size</th></tr></thead>
       <tbody></tbody>
     </table>
-    <p class="note">Bars show point estimates; the thin line is the 95% cluster-bootstrap interval (resampling problem groups). Hover or tap a row for every metric. <span class="key"><i class="sw ours_rl"></i>Vector <i class="sw ours_sft"></i>Anchor <i class="sw ours_v2"></i>Meridian <i class="sw base"></i>Our base model <i class="sw other"></i>Off-the-shelf</span></p>
+    <p class="note">Bars show point estimates; the thin line is the 95% cluster-bootstrap interval (resampling problem groups). Hover or tap a row for every metric. <span class="key"><i class="sw ours_signet"></i>Signet <i class="sw ours_rl"></i>Vector <i class="sw ours_sft"></i>Anchor <i class="sw ours_v2"></i>Meridian <i class="sw base"></i>Our base model <i class="sw other"></i>Off-the-shelf</span></p>
   </section>
 
   <section id="tradeoff">
@@ -200,7 +200,7 @@
 </footer>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
-<script src="model-releases.js?v=1"></script>
-<script src="app.js?v=10"></script>
+<script src="model-releases.js?v=1-signet"></script>
+<script src="app.js?v=11"></script>
 </body>
 </html>

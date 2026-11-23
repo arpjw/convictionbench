@@ -19,7 +19,7 @@
   var state = { split: 'test_structural', metric: 'final_accuracy', scatterSplit: 'test_structural' };
   var DATA = null;
   var RELEASES = window.convictionReleases;
-  function isOurs(m) { return m.group === 'ours_rl' || m.group === 'ours_sft' || m.group === 'ours_v2'; }
+  function isOurs(m) { return m.group === 'ours_rl' || m.group === 'ours_sft' || m.group === 'ours_v2' || m.group === 'ours_signet'; }
   var tip = document.getElementById('tip');
 
   function $(id) { return document.getElementById(id); }
@@ -155,7 +155,7 @@
       if (!f || !r || f.v == null || r.v == null) return null;
       return { m: m, x: 1 - f.v, xlo: 1 - f.hi, xhi: 1 - f.lo, y: r.v, ylo: r.lo, yhi: r.hi };
     }).filter(Boolean);
-    var colour = function (g) { return 'var(--' + (g === 'ours_rl' ? 'rl' : g === 'ours_sft' ? 'sft' : g === 'ours_v2' ? 'v2' : g === 'base' ? 'base' : 'other') + ')'; };
+    var colour = function (g) { return 'var(--' + (g === 'ours_rl' ? 'rl' : g === 'ours_sft' ? 'sft' : g === 'ours_v2' ? 'v2' : g === 'ours_signet' ? 'signet' : g === 'base' ? 'base' : 'other') + ')'; };
 
     // label placement: greedy vertical de-overlap on the right-hand side of each point
     // with ~40 models, label only ours, the base model and the extremes on each axis; the rest are hover-only
@@ -362,15 +362,17 @@
     var others = DATA.models.filter(function (m) { return m.group === 'other'; });
     var resist = others.filter(function (m) { return m.metrics.test_id.fabricated_evidence_resistance.v > 0.25; }).length;
     $('k-forged').textContent = resist + ' / ' + others.length;
-    var rl = DATA.models.filter(function (m) { return m.group === 'ours_rl'; })[0];
     var sft = DATA.models.filter(function (m) { return m.group === 'ours_sft'; })[0];
-    $('k-flip').textContent = fmt(rl.metrics.test_structural.pressure_flip_rate.v, 2);
+    var open = DATA.models.filter(function (m) { return m.track !== 'proprietary' && m.metrics.test_structural.pressure_flip_rate.v != null; });
+    var best = open.reduce(function (a, b) { return b.metrics.test_structural.pressure_flip_rate.v < a.metrics.test_structural.pressure_flip_rate.v ? b : a; });
+    $('k-flip').textContent = fmt(best.metrics.test_structural.pressure_flip_rate.v, 3);
+    $('k-flip-name').textContent = best.label;
     $('k-sft').textContent = fmt(sft.metrics.test_id.fabricated_evidence_resistance.v, 2);
     $('protocol').textContent = DATA.benchmark + '. ' + DATA.protocol + ' Split hashes (SHA-256 prefixes): ' +
       Object.keys(DATA.hashes).map(function (k) { return k + ' ' + DATA.hashes[k]; }).join(', ') + '.';
   }
 
-  fetch('data.json?v=2').then(function (r) { return r.json(); }).then(function (d) {
+  fetch('data.json?v=3').then(function (r) { return r.json(); }).then(function (d) {
     DATA = d;
     DATA.models = d.models.map(function (m) {
       var release = RELEASES[m.key];
