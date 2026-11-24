@@ -19,18 +19,18 @@ window.convictionReleases = {
     name: 'Signet-9B',
     shortName: 'Signet-9B',
     repo: 'Laplace-AI-Research/Signet-9B',
-    note: 'Trained on the ConvictionBench train split: 250-example warm-start, then 200 GRPO steps on Qwen3.5-9B. Released 2026-11-25.'
+    note: 'Trained on the ConvictionBench train split: 250-example warm-start, then 200 GRPO steps on Qwen3.5-9B. Released 2026-11-24.'
   },
   SIG_4B_r1: {
     name: 'Signet-4B',
     shortName: 'Signet-4B',
     repo: 'Laplace-AI-Research/Signet-4B',
-    note: 'Trained on the ConvictionBench train split: 400 GRPO steps from Qwen3.5-4B. Released 2026-11-25.'
+    note: 'Trained on the ConvictionBench train split: 400 GRPO steps from Qwen3.5-4B. Released 2026-11-24.'
   },
   SIG_2B_r1: {
     name: 'Signet-2B',
     shortName: 'Signet-2B',
     repo: 'Laplace-AI-Research/Signet-2B',
-    note: 'Trained on the ConvictionBench train split: 400 GRPO steps from Qwen3.5-2B. Released 2026-11-25.'
+    note: 'Trained on the ConvictionBench train split: 400 GRPO steps from Qwen3.5-2B. Released 2026-11-24.'
   }
 };
