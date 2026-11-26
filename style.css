@@ -17,6 +17,7 @@
   --good: #3fae7f;
   --bad: #e66767;
   --mark: rgba(237, 161, 0, 0.18);
+  --brand-mark: #f2f2f2;
   --fam1: #c98500; --fam2: #d55181; --fam3: #9085e9; --fam4: #008300;
   --serif: 'EB Garamond', 'Iowan Old Style', 'Times New Roman', serif;
   --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -41,6 +42,7 @@
   --good: #1a8a5a;
   --bad: #c43c3b;
   --mark: rgba(237, 161, 0, 0.22);
+  --brand-mark: #02338a;
   --fam1: #eda100; --fam2: #e87ba4; --fam3: #6250d6; --fam4: #008300;
   color-scheme: light;
 }
@@ -56,8 +58,7 @@ code { font: .82em var(--mono); color: var(--body); }
 .top, main, .foot { width: min(960px, 100% - 32px); margin-inline: auto; }
 .top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; font-size: 13px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; font: 400 15px/1.2 'Geist', var(--sans); text-decoration: none; }
-.brand img { flex: none; object-fit: contain; }
-:root[data-theme='light'] .brand img { filter: brightness(.55); }
+.brand .mark { flex: none; width: 20px; height: 16px; background: var(--brand-mark); -webkit-mask: url("assets/laplace/mark.png") center / contain no-repeat; mask: url("assets/laplace/mark.png") center / contain no-repeat; }
 .top nav { display: flex; align-items: center; gap: 22px; }
 .top nav a { text-decoration: none; color: var(--muted); padding-bottom: 3px; border-bottom: 1px solid transparent; }
 .top nav a:hover, .top nav a[aria-current] { color: var(--fg); border-color: var(--fg); }
